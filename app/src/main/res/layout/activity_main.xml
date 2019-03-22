@@ -4,32 +4,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <WebView
         android:id="@+id/wv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"/>
+    <Button
+        android:id="@+id/jx_back"
+        android:text="解析上一步"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:visibility="gone"/>
+    <com.zhangbin.paint.DragTextView
+        android:id="@+id/textView"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:longClickable="false"
+        android:layout_gravity="left"
+        android:text="基础作业! \n 三年级!"
+        android:gravity="center"
+        android:layout_marginLeft="180dp"/>
+    <Button
+        android:id="@+id/jx_next"
+        android:text="解析"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"/>
+    <Button
+        android:id="@+id/open"
+        android:text="打开"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+    <com.zhangbin.paint.DragVideoView
+        android:id="@+id/videoView"
+        android:layout_width="180dp"
+        android:layout_height="85dp"
+        android:clickable="false"
+        android:longClickable="false"
+        android:layout_gravity="right"
+        android:layout_marginRight="120dp"/>
+    <Button
+        android:id="@+id/back"
+        android:text="上一页"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_gravity="right"/>
+    <Button
+        android:id="@+id/next"
+        android:text="下一页"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        />
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btn_savesd"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/tuya_save_selector"
-                    android:button="@null" />
-
                 <Button
                     android:id="@+id/btn_revoke"
                     android:layout_width="0dp"
@@ -39,7 +84,15 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/tuya_revoke_selector"
                     android:button="@null" />
-
+            <Button
+                android:id="@+id/btn_savesd"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tuya_save_selector"
+                android:button="@null" />
                 <Button
                     android:id="@+id/btn_clean"
                     android:layout_width="0dp"
@@ -58,7 +111,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/tuya_picselect_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/btn_drawcycle"
@@ -114,7 +168,8 @@
             android:id="@+id/ll_bottom_boardstyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
         <ImageView
             android:id="@+id/iv_paintstyle"
             android:layout_width="0dp"
@@ -122,21 +177,59 @@
             android:layout_height="wrap_content"
             android:background="@drawable/paint_style"
             />
+            <ImageView
+                android:id="@+id/iv_reaserstyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/reaser_style"
+                android:visibility="visible"
+                />
 
             <ImageView
                 android:id="@+id/iv_paint_color"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/paint_color" />
+                android:layout_marginRight="10dp"
+                android:background="@drawable/paint_color"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/iv_paint_size"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="@drawable/paint_size" />
+                android:background="@drawable/paint_size"
+                android:visibility="gone"/>
+            <EditText
+                android:id="@+id/et_paint_color"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="#000000"
+                android:hint="画笔颜色"
+                />
+            <EditText
+                android:id="@+id/et_paint_size"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:inputType="number|numberDecimal"
+                android:hint="画笔粗细"
+                />
+            <EditText
+                android:id="@+id/et_eraser_size"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:inputType="number|numberDecimal"
+                android:hint="橡皮大小"
+                />
+
         </LinearLayout>
     </LinearLayout>
 

@@ -18,6 +18,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhangbin.paint.R;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , RadioGroup.OnCheckedChangeListener{
 
     // Used to load the 'native-lib' library on application startup.
