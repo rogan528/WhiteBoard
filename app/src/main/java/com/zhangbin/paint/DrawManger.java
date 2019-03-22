@@ -6,6 +6,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
 import com.google.gson.Gson;
+import com.zhangbin.GraffitiView;
 import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
@@ -91,24 +92,24 @@ public class DrawManger {
                 case 304:
                     break;
                 case 305:
-                    this.view.setPaintSize(this.orderBean.getUuid(),Integer.parseInt(this.orderBean.getValue()));
+                    //this.view.setPaintSize(this.orderBean.getUuid(),Integer.parseInt(this.orderBean.getValue()));
                     break;
                 case 306:
-                    this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
+                   // this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
                     break;
                 case 307:
-                    this.view.setReaserSize(this.orderBean.getUuid(),Float.parseFloat(this.orderBean.getValue()));
+                    //this.view.setReaserSize(this.orderBean.getUuid(),Float.parseFloat(this.orderBean.getValue()));
                     break;
                 case 308:
                     break;
                 case 309:
-                    this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
+                   // this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
                     break;
                 case 400:
-                    this.view.orderDraw(lst);
+                    //this.view.orderDraw(lst);
                     break;
                 case 401:
-                    this.view.orderReaser(this.orderBean.getUuid(),lst);
+                   // this.view.orderReaser(this.orderBean.getUuid(),lst);
                     break;
                 case 402:
                     break;
@@ -117,19 +118,19 @@ public class DrawManger {
                 case 404:
                     break;
                 case 405:
-                    this.view.orderDrawLIne(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                   // this.view.orderDrawLIne(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 406:
-                    this.view.orderDrawDashLine(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                   // this.view.orderDrawDashLine(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 407:
-                    this.view.orderDrawLRectangle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                   // this.view.orderDrawLRectangle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 408:
-                    this.view.orderDrawCircle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                    //this.view.orderDrawCircle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 409:
-                    this.view.orderDragView(this.orderBean.getUuid(),this.orderBean.getX(), this.orderBean.getY());
+                    //this.view.orderDragView(this.orderBean.getUuid(),this.orderBean.getX(), this.orderBean.getY());
                     break;
                 case 410:
                     break;
@@ -157,7 +158,7 @@ public class DrawManger {
 
                         }
                     });
-                    this.view.setPage(this.orderBean.getCurrentPage());
+                   // this.view.setPage(this.orderBean.getCurrentPage());
                     break;
                 case 504:
                     this.webView.evaluateJavascript("javascript:LastSlideS(" + this.orderBean.getCurrentPage() + "," + this.orderBean.getCurrentAnimation() + ")", new ValueCallback<String>() {
@@ -166,7 +167,7 @@ public class DrawManger {
 
                         }
                     });
-                    this.view.setPage(this.orderBean.getCurrentPage());
+                   // this.view.setPage(this.orderBean.getCurrentPage());
                     break;
                 case 505:
                     this.webView.evaluateJavascript("javascript:NextSlideS(" + this.orderBean.getCurrentPage() + "," + this.orderBean.getCurrentAnimation() + ")", new ValueCallback<String>() {
@@ -175,7 +176,7 @@ public class DrawManger {
 
                         }
                     });
-                    this.view.setPage(this.orderBean.getCurrentPage());
+                    //this.view.setPage(this.orderBean.getCurrentPage());
                     break;
             }
 

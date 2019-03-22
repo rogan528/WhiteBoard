@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zhangbin.GraffitiView;
 import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
@@ -180,9 +181,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         tuyaView = new GraffitiView(this, screenWidth, realHeight);
         mWebView.addView(tuyaView);
         tuyaView.requestFocus();
-        tuyaView.setPaintSize("1",paintSizeValue);
+        /*tuyaView.setPaintSize(paintSizeValue);
         tuyaView.setReaserSize("1",eRaserSizeValue);
-        tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));
+        tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
         mBack.setOnClickListener(this);
         mNext.setOnClickListener(this);
         mOpen.setOnClickListener(this);
@@ -214,7 +215,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mPaintSize.getText().toString().trim())) {
                     paintSizeValue = Float.parseFloat(mPaintSize.getText().toString().trim());
-                    tuyaView.setPaintSize("1",paintSizeValue);
+                   // tuyaView.setPaintSize("1",paintSizeValue);
                 }
             }
         });
@@ -233,7 +234,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mEraserSize.getText().toString().trim())) {
                     eRaserSizeValue = Float.parseFloat(mEraserSize.getText().toString().trim());
-                    tuyaView.setReaserSize("1",eRaserSizeValue);
+                    //tuyaView.setReaserSize("1",eRaserSizeValue);
                 }
             }
         });
@@ -505,7 +506,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
 
     //选择画笔颜色
     private void selectPaintColorAndSetting(int setColor) {
-        tuyaView.setPaintColor("1",setColor);
+       // tuyaView.setPaintColor("1",setColor);
         ll_paintcolor_state.setVisibility(View.GONE);
     }
 }

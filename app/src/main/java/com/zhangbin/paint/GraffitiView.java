@@ -1,4 +1,4 @@
-package com.zhangbin.paint;
+package com.zhangbin;
 
 /**
  * Created by zpxiang on 2016/4/6.
@@ -10,29 +10,26 @@ package com.zhangbin.paint;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.zhangbin.paint.beans.OrderBean;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class GraffitiView extends View {
 
 
+    private Context context;
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private Path mPath;
@@ -51,37 +48,29 @@ public class GraffitiView extends View {
     private int screenWidth, screenHeight;//控件传进来的宽高，用来表示该tuyaView的宽高
 
     private int currentColor = Color.RED;
-    private float currentPanitSize = 5;
-    private float currentReaserSize = 50;
+    private int currentSize = 5;
     private int currentStyle = 1;
 
     private int[] paintColor;//颜色集合
+    private Bitmap srcBitmap;//传递过来的背景图转换成的bitmap
 
     //设置画图样式
     private static final int DRAW_PATH = 01;
     private static final int DRAW_CIRCLE = 02;
     private static final int DRAW_RECTANGLE = 03;
     private static final int DRAW_ARROW = 04;
-    private int[] graphics = new int[]{DRAW_PATH, DRAW_CIRCLE, DRAW_RECTANGLE, DRAW_ARROW};
-    private int currentDrawGraphics = graphics[0];//默认画线
-    private int curPage = 1;
-    private Map<Integer, DrawPage> drawPages = new HashMap<Integer, DrawPage>();
-    private Map<String, String> drawMap = new HashMap<String, String>();
-
+    private int[] graphics = new int[]{DRAW_PATH,DRAW_CIRCLE,DRAW_RECTANGLE,DRAW_ARROW};
+    private  int currentDrawGraphics = graphics[0];//默认画线
 
     private class DrawPath {
         public Path path;// 路径
         public Paint paint;// 画笔
     }
 
-    private class DrawPage {
-        public List<DrawPath> savePath;//保存路径
-        public List<DrawPath> deletePath;// 删除路径
-    }
-
 
     public GraffitiView(Context context, int w, int h) {
         super(context);
+        this.context = context;
         screenWidth = w;
         screenHeight = h;
         paintColor = new int[]{
@@ -89,57 +78,13 @@ public class GraffitiView extends View {
         };//画笔颜色的数组
 
         setLayerType(LAYER_TYPE_SOFTWARE, null);//设置默认样式，去除dis-in的黑色方框以及clear模式的黑线效果
+        initCanvas();
+
+        srcBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), mBitmap.getConfig());
 
         savePath = new ArrayList<DrawPath>();//存储画下的路径
         deletePath = new ArrayList<DrawPath>();//存储删除的路径，用来恢复，此方法已弃
-
-
-        DrawPage dr = new DrawPage();
-        dr.deletePath = deletePath;
-        dr.savePath = savePath;
-        drawPages.put(curPage, dr);
-        initCanvas();
-
     }
-
-    public void setPage(int page) {
-
-        //如果是当前返回
-        if (page == curPage) {
-            return;
-        }
-
-        //到其他页，保存原有状态
-        if (drawPages.containsKey(curPage)) {
-            DrawPage drawpage = drawPages.get(curPage);
-            drawpage.deletePath = new ArrayList<DrawPath>();
-            drawpage.savePath = new ArrayList<DrawPath>();
-            drawpage.savePath.addAll(savePath);
-            drawpage.deletePath.addAll(deletePath);
-
-        }
-
-
-        //如果有取出没有创建
-        if (drawPages.containsKey(page)) {
-            DrawPage drawpage = drawPages.get(page);
-            deletePath = drawpage.deletePath;
-            savePath = drawpage.savePath;
-        } else {
-            DrawPage dr = new DrawPage();
-            savePath = new ArrayList<DrawPath>();//存储画下的路径
-            deletePath = new ArrayList<DrawPath>();//存储删除的路径，用来恢复，此方法已弃
-            dr.deletePath = deletePath;
-            dr.savePath = savePath;
-            drawPages.put(page, dr);
-        }
-
-        curPage = page;
-        redrawOnBitmap();
-
-
-    }
-
 
     //初始化画笔画板
     public void initCanvas() {
@@ -151,8 +96,6 @@ public class GraffitiView extends View {
         mBitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
         mBitmap.eraseColor(Color.argb(0, 0, 0, 0));//橡皮擦的设置
         mCanvas = new Canvas(mBitmap);  //所有mCanvas画的东西都被保存在了mBitmap中
-        mCanvas.translate(screenWidth / 2, screenHeight / 2);
-
         mCanvas.drawColor(Color.TRANSPARENT);//设置透明是为了之后的添加背景，防止盖住背景
     }
 
@@ -165,13 +108,13 @@ public class GraffitiView extends View {
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         if (currentStyle == 1) {//普通画笔功能
-            mPaint.setStrokeWidth(currentPanitSize);
+            mPaint.setStrokeWidth(currentSize);
             mPaint.setColor(currentColor);
         } else {//橡皮擦
             mPaint.setAlpha(0);
             mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));//这两个方法一起使用才能出现橡皮擦效果
             mPaint.setColor(Color.TRANSPARENT);
-            mPaint.setStrokeWidth(currentReaserSize);
+            mPaint.setStrokeWidth(50);
             currentDrawGraphics = DRAW_PATH;//使用橡皮擦时默认用线的方式擦除
         }
     }
@@ -200,18 +143,18 @@ public class GraffitiView extends View {
 
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             // 从x1,y1到x2,y2画一条贝塞尔曲线，更平滑(直接用mPath.lineTo也可以)
-            if (currentDrawGraphics == DRAW_PATH) {//画线
+            if(currentDrawGraphics == DRAW_PATH){//画线
                 mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            } else if (currentDrawGraphics == DRAW_CIRCLE) {
+            }else if(currentDrawGraphics == DRAW_CIRCLE){
                 mPath.reset();//清空以前的路径，否则会出现无数条从起点到末位置的线
-                RectF rectF = new RectF(startX, startY, x, y);
+                RectF rectF = new RectF(startX,startY,x,y);
                 mPath.addOval(rectF, Path.Direction.CCW);//画椭圆
-                // mPath.addCircle((startX + x) / 2, (startY + y) / 2, (float) Math.sqrt(Math.pow(newx, 2) + Math.pow(newy, 2)) / 2, Path.Direction.CCW);
-            } else if (currentDrawGraphics == DRAW_RECTANGLE) {
+               // mPath.addCircle((startX + x) / 2, (startY + y) / 2, (float) Math.sqrt(Math.pow(newx, 2) + Math.pow(newy, 2)) / 2, Path.Direction.CCW);
+            }else if(currentDrawGraphics == DRAW_RECTANGLE){
                 mPath.reset();
-                RectF rectF = new RectF(startX, startY, x, y);
+                RectF rectF = new RectF(startX,startY,x,y);
                 mPath.addRect(rectF, Path.Direction.CCW);
-            } else if (currentDrawGraphics == DRAW_ARROW) {
+            }else if (currentDrawGraphics == DRAW_ARROW){
                 mPath.reset();
                 drawAL((int) startX, (int) startY, (int) x, (int) y);
 
@@ -224,7 +167,7 @@ public class GraffitiView extends View {
     }
 
     private void touch_up() {
-        if (currentDrawGraphics == DRAW_PATH) {
+        if(currentDrawGraphics == DRAW_PATH){
             mPath.lineTo(mX, mY);
         }
 
@@ -234,216 +177,10 @@ public class GraffitiView extends View {
         mPath = null;// 重新置空
     }
 
-
-    public void orderDrawLIne(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
-        if (mPath == null) {
-            mPath = new Path();
-        }
-
-        dp = new DrawPath();
-        dp.path = mPath;
-        dp.paint = mPaint;
-        mPath.moveTo(x1, y1);
-        mPath.quadTo(x1, y1, x2, y2);
-        mCanvas.drawPath(mPath, mPaint);
-        savePath.add(dp);
-        invalidate();
-        if (!isDrag) {
-            drawMap.put("uuid405",uuid);
-            drawMap.put("startX1405",x1+"");
-            drawMap.put("startY1405",y1+"");
-            drawMap.put("startX2405",x2+"");
-            drawMap.put("startY2405",y2+"");
-            savePath.add(dp);
-            mPath = null;// 重新置空
-        }else{
-            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
-            mPath = null;// 重新置空
-        }
-    }
-
-    public void orderDrawDashLine(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
-        if (mPath == null) {
-            mPath = new Path();
-        }
-        dp = new DrawPath();
-        dp.path = mPath;
-        dp.paint = mPaint;
-
-        mPaint.setARGB(255, 0, 0, 0);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setPathEffect(new DashPathEffect(new float[]{5, 10, 15, 20}, 0));
-
-        mPath.quadTo(x1, y1, x2, y2);
-        mCanvas.drawPath(mPath, mPaint);
-
-        invalidate();
-        if (!isDrag) {
-            drawMap.put(uuid,uuid);
-            drawMap.put("startX1406",x1+"");
-            drawMap.put("startY1406",y1+"");
-            drawMap.put("startX2406",x2+"");
-            drawMap.put("startY2406",y2+"");
-            savePath.add(dp);
-            mPath = null;// 重新置空
-        }else{
-            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
-            mPath = null;// 重新置空
-        }
-
-    }
-
-    public void orderDraw(List<OrderBean.DataBean> lst) {
-        if (mPath == null) {
-            mPath = new Path();
-        }
-        dp = new DrawPath();
-        dp.path = mPath;
-        dp.paint = mPaint;
-
-        OrderBean.DataBean start = lst.get(0);
-
-        mPath.moveTo(start.getX(), start.getY());
-        for (int i = 1; i < lst.size() - 1; i++) {
-            OrderBean.DataBean end = lst.get(i);
-            mPath.lineTo(end.getX(), end.getY());
-        }
-
-        mCanvas.drawPath(mPath, mPaint);
-        //将一条完整的路径保存下来(相当于入栈操作)
-        savePath.add(dp);
-        invalidate();
-        mPath = null;// 重新置空
-    }
-    public void orderReaser(String uuid,List<OrderBean.DataBean> lst) {
-        if (mPath == null) {
-            mPath = new Path();
-        }
-        dp = new DrawPath();
-        dp.path = mPath;
-        dp.paint = mPaint;
-        mPaint.setAlpha(0);
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));//这两个方法一起使用才能出现橡皮擦效果
-        mPaint.setColor(Color.TRANSPARENT);
-        mPaint.setStrokeWidth(currentReaserSize);
-        currentDrawGraphics = DRAW_PATH;//使用橡皮擦时默认用线的方式擦除
-        OrderBean.DataBean start = lst.get(0);
-
-        mPath.moveTo(start.getX(), start.getY());
-        for (int i = 1; i < lst.size() - 1; i++) {
-            OrderBean.DataBean end = lst.get(i);
-            mPath.lineTo(end.getX(), end.getY());
-        }
-
-        mCanvas.drawPath(mPath, mPaint);
-        //将一条完整的路径保存下来(相当于入栈操作)
-        savePath.add(dp);
-        invalidate();
-        mPath = null;// 重新置空
-    }
-
-    public void orderDrawCircle(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
-
-            if (mPath == null) {
-                mPath = new Path();
-            }
-            dp = new DrawPath();
-            dp.path = mPath;
-            dp.paint = mPaint;
-            mPath.moveTo(x1, y1);
-            mPath.reset();//清空以前的路径，否则会出现无数条从起点到末位置的线
-            RectF rectF = new RectF(x1, y1, x2, y2);
-            mPath.addOval(rectF, Path.Direction.CCW);//画椭圆
-            mCanvas.drawPath(mPath, mPaint);
-            invalidate();
-        if (!isDrag) {
-            drawMap.put(uuid, uuid);
-            drawMap.put("startX1408", x1 + "");
-            drawMap.put("startY1408", y1 + "");
-            drawMap.put("startX2408", x2 + "");
-            drawMap.put("startY2408", y2 + "");
-            savePath.add(dp);
-            mPath = null;// 重新置空
-        }else{
-            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
-            mPath = null;// 重新置空
-        }
-    }
-
-
-    public void orderDrawLRectangle(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
-        if (mPath == null) {
-            mPath = new Path();
-        }
-        dp = new DrawPath();
-        dp.path = mPath;
-        dp.paint = mPaint;
-        mPath.moveTo(x1, y1);
-        mPath.reset();
-        RectF rectF = new RectF(x1, y1, x2, y2);
-        mPath.addRect(rectF, Path.Direction.CCW);
-        mCanvas.drawPath(mPath, mPaint);
-        invalidate();
-        if (!isDrag) {
-            drawMap.put(uuid,uuid);
-            drawMap.put("startX1407",x1+"");
-            drawMap.put("startY1407",y1+"");
-            drawMap.put("startX2407",x2+"");
-            drawMap.put("startY2407",y2+"");
-            savePath.add(dp);
-            mPath = null;// 重新置空
-        }else{
-            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
-            mPath = null;// 重新置空
-        }
-    }
-    public void orderDragView(String uuid,float x, float y) {
-        for(String key:drawMap.keySet())
-        {
-            Log.e("itemorderorder","--uuid:"+uuid+"---key:"+key+"value:"+drawMap.get(key));
-            if (uuid.equals(drawMap.get(key))){
-                if (key.equals("uuid405")){
-                    String type = drawMap.get("type");
-                    float startX1 = Float.parseFloat(drawMap.get("startX1405"));
-                    float startY1 = Float.parseFloat(drawMap.get("startY1405"));
-                    float startX2 = Float.parseFloat(drawMap.get("startX2405"));
-                    float startY2 = Float.parseFloat(drawMap.get("startY2405"));
-                    orderDrawLIne(uuid,true,x,y,x+startX2-startX1,y+startY2-startY1);
-                }
-                if (key.equals("uuid406")){
-                    String type = drawMap.get("type");
-                    float startX1 = Float.parseFloat(drawMap.get("startX1406"));
-                    float startY1 = Float.parseFloat(drawMap.get("startY1406"));
-                    float startX2 = Float.parseFloat(drawMap.get("startX2406"));
-                    float startY2 = Float.parseFloat(drawMap.get("startY2406"));
-                    orderDrawDashLine(uuid,true,x,y,x+startX2-startX1,y+startY2-startY1);
-                }
-                if (key.equals("uuid407")){
-                    String type = drawMap.get("type");
-                    float startX1 = Float.parseFloat(drawMap.get("startX1407"));
-                    float startY1 = Float.parseFloat(drawMap.get("startY1407"));
-                    float startX2 = Float.parseFloat(drawMap.get("startX2407"));
-                    float startY2 = Float.parseFloat(drawMap.get("startY2407"));
-                    orderDrawLRectangle(uuid,true,x,y,x+startX2-startX1,y+startY2-startY1);
-                }
-                if (key.equals("uuid408")){
-                    float startX1 = Float.parseFloat(drawMap.get("startX1408"));
-                    float startY1 = Float.parseFloat(drawMap.get("startY1408"));
-                    float startX2 = Float.parseFloat(drawMap.get("startX2408"));
-                    float startY2 = Float.parseFloat(drawMap.get("startY2408"));
-                    orderDrawCircle(uuid,true,x,y,x+startX2-startX1,y+startY2-startY1);
-                }
-            }
-        }
-
-    }
-
-
     private float startX;
     private float startY;
 
     private boolean isEmpty = true;//用来处理点击了涂鸦板未生成路径但保存时已不再报空的情况
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -471,7 +208,7 @@ public class GraffitiView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 touch_up();
-                if (isEmpty) {
+                if(isEmpty){
                     savePath.clear();
                 }
                 invalidate();
@@ -514,6 +251,7 @@ public class GraffitiView extends View {
         Iterator<DrawPath> iter = savePath.iterator();
         while (iter.hasNext()) {
             DrawPath drawPath = iter.next();
+
             mCanvas.drawPath(drawPath.path, drawPath.paint);
         }
         invalidate();// 刷新
@@ -525,13 +263,14 @@ public class GraffitiView extends View {
      */
     public void recover() {
 
-        if (deletePath != null && deletePath.size() > 0) {
+        if (deletePath.size() > 0) {
 
             //将删除的路径列表中的最后一个，也就是最顶端路径取出（栈）,并加入路径保存列表中
             DrawPath dp = deletePath.get(deletePath.size() - 1);
             savePath.add(dp);
             //将取出的路径重绘在画布上
             mCanvas.drawPath(dp.path, dp.paint);
+
             //将该路径从删除的路径列表中去除
             deletePath.remove(deletePath.size() - 1);
             invalidate();
@@ -539,21 +278,29 @@ public class GraffitiView extends View {
     }
 
 
+
     /**
      * 以下为样式修改内容
-     */
+     * */
 
     //设置画笔样式
     public void selectPaintStyle(int which) {
         if (which == 0) {
             currentStyle = 1;
             setPaintStyle();
-        } else if (which == 1) { //which为1时，选择的是橡皮擦
+        }else if (which == 1) { //which为1时，选择的是橡皮擦
             currentStyle = 2;
             setPaintStyle();
         }
     }
 
+
+    //选择画笔大小
+    public void selectPaintSize(int which) {
+
+        currentSize = which;
+        setPaintStyle();
+    }
 
     //设置画笔颜色
     public void selectPaintColor(int which) {
@@ -561,56 +308,43 @@ public class GraffitiView extends View {
         setPaintStyle();
     }
 
-    //自定义画笔颜色
-    public void setPaintColor(String uuid ,int color) {
-        currentColor = color;
-        setPaintStyle();
-    }
 
-    //自定义画笔大小
-    public void setPaintSize(String uuid ,float which) {
-        currentPanitSize = which;
-        setPaintStyle();
-    }
 
-    //设置橡皮大小
-    public void setReaserSize(String uuid ,float which) {
-        currentReaserSize = which;
-        setPaintStyle();
-    }
+
+
 
     //设置背景图
-    public void setSrcBitmap(Bitmap bitmap) {
+    public void setSrcBitmap(Bitmap bitmap){
+        this.srcBitmap = bitmap;
     }
 
 
     /**
      * 以下为画图方式
-     *
      * @param which 通过传过来的int类型来修改画图样式
      */
     //画线，圆，矩形，以及箭头
-    public void drawGraphics(int which) {
+    public void drawGraphics(int which){
         currentDrawGraphics = graphics[which];
     }
 
 
     /**
      * 画箭头
-     *
      * @param startX 开始位置x坐标
      * @param startY 开始位置y坐标
-     * @param endX   结束位置x坐标
-     * @param endY   结束位置y坐标
+     * @param endX 结束位置x坐标
+     * @param endY 结束位置y坐标
      */
-    public void drawAL(int startX, int startY, int endX, int endY) {
-        double lineLength = Math.sqrt(Math.pow(Math.abs(endX - startX), 2) + Math.pow(Math.abs(endY - startY), 2));//线当前长度
+    public void drawAL(int startX, int startY, int endX, int endY)
+    {
+        double lineLength = Math.sqrt(Math.pow(Math.abs(endX-startX),2) + Math.pow(Math.abs(endY-startY),2));//线当前长度
         double H = 0;// 箭头高度
         double L = 0;// 箭头长度
-        if (lineLength < 320) {//防止箭头开始时过大
-            H = lineLength / 4;
-            L = lineLength / 6;
-        } else { //超过一定线长箭头大小固定
+        if(lineLength < 320){//防止箭头开始时过大
+            H = lineLength/4 ;
+            L = lineLength/6;
+        }else { //超过一定线长箭头大小固定
             H = 80;
             L = 50;
         }
@@ -624,8 +358,8 @@ public class GraffitiView extends View {
         int x4 = (int) (endX - pointXY2[0]);//(x4,y4)为箭头另一端的坐标
         int y4 = (int) (endY - pointXY2[1]);
         // 画线
-        mPath.moveTo(startX, startY);
-        mPath.lineTo(endX, endY);
+        mPath.moveTo(startX,startY);
+        mPath.lineTo(endX,endY);
         mPath.moveTo(x3, y3);
         mPath.lineTo(endX, endY);
         mPath.lineTo(x4, y4);
@@ -634,15 +368,15 @@ public class GraffitiView extends View {
 
     /**
      * 矢量旋转函数，计算末点的位置
-     *
-     * @param x       x分量
-     * @param y       y分量
-     * @param ang     旋转角度
-     * @param isChLen 是否改变长度
-     * @param newLen  箭头长度长度
-     * @return 返回末点坐标
+     * @param x  x分量
+     * @param y  y分量
+     * @param ang  旋转角度
+     * @param isChLen  是否改变长度
+     * @param newLen   箭头长度长度
+     * @return    返回末点坐标
      */
-    public double[] rotateAndGetPoint(int x, int y, double ang, boolean isChLen, double newLen) {
+    public double[] rotateAndGetPoint(int x, int y, double ang, boolean isChLen, double newLen)
+    {
         double pointXY[] = new double[2];
         double vx = x * Math.cos(ang) - y * Math.sin(ang);
         double vy = x * Math.sin(ang) + y * Math.cos(ang);
@@ -655,7 +389,7 @@ public class GraffitiView extends View {
     }
 
 
-    public List getSavePath() {
+    public List getSavePath(){
         return savePath;
     }
 }
