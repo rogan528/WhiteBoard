@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.zhangbin.hellojni"
+        applicationId "com.zhangbin.paint"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -13,7 +13,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -25,7 +25,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
     implementation 'com.google.code.gson:gson:2.8.5'
-
 }

@@ -2,19 +2,15 @@ package com.zhangbin.paint;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.VideoView;
 
 import java.lang.reflect.Field;
 
-public class DragTextView extends TextView {
+public class DragTextView extends AppCompatTextView {
     private int width, height;
 
     private int screenWidth, screenHeight;

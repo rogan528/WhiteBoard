@@ -23,16 +23,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.zhangbin.GraffitiView;
 import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
 
-
 public class MainActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, MediaPlayer.OnPreparedListener {
 
-    //private String url = "https://www.baidu.com/";
-    private String url = "http://192.168.8.37:8081/83461B08A0401FC68D9C2A7E036C4710/h5/h5.html?aaaa";
+    private String url = "https://www.baidu.com/";
+    //private String url = "http://192.168.8.37:8081/83461B08A0401FC68D9C2A7E036C4710/h5/h5.html?aaaa";
     //  private String url = "file:///android_asset/javascript.html";
 
 
@@ -96,6 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
      * 初始化控件
      */
     private void initView() {
+        mWebView = findViewById(R.id.wv);
         mWebView = findViewById(R.id.wv);
         mPaintStyle = findViewById(R.id.iv_paintstyle);//画笔
         mEraserStyle = findViewById(R.id.iv_reaserstyle);//橡皮
@@ -215,7 +214,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mPaintSize.getText().toString().trim())) {
                     paintSizeValue = Float.parseFloat(mPaintSize.getText().toString().trim());
-                   // tuyaView.setPaintSize("1",paintSizeValue);
+                    // tuyaView.setPaintSize("1",paintSizeValue);
                 }
             }
         });
@@ -322,9 +321,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.jx_back:
-                drawManger.PreOrder().ExecuteOrder();
-                break;
             case R.id.jx_next:
                 drawManger.NextOrder().ExecuteOrder();
                 break;
@@ -506,7 +502,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
 
     //选择画笔颜色
     private void selectPaintColorAndSetting(int setColor) {
-       // tuyaView.setPaintColor("1",setColor);
+        // tuyaView.setPaintColor("1",setColor);
         ll_paintcolor_state.setVisibility(View.GONE);
     }
 }

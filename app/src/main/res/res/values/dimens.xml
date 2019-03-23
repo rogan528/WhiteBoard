@@ -1,7 +1,0 @@
-<resources>
-    <dimen name="DIMEN_10PX">4.166667dp</dimen>
-    <dimen name="DIMEN_15PX">6.25dp</dimen>
-    <dimen name="DIMEN_60PX">25dp</dimen>
-    <dimen name="DIMEN_100PX">41.66667dp</dimen>
-
-</resources>
