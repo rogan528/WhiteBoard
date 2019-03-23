@@ -119,7 +119,7 @@ public class DrawManger {
                 case 408:
                     //画椭圆
                     this.view.orderDrawLRectangle(this.orderBean.uuid,false,this.orderBean.x1, this.orderBean.y1, this.orderBean.x2, this.orderBean.y2);
-                    //this.view.orderDrawCircle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                    //this.view.orderDrawLRectangle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 409:
                     //拖拽操作
