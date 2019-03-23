@@ -1,4 +1,4 @@
-package com.zhangbin;
+package com.zhangbin.paint;
 
 /**
  * Created by zpxiang on 2016/4/6.
@@ -10,7 +10,6 @@ package com.zhangbin;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,8 +19,9 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
-import java.io.File;
-import java.io.FileOutputStream;
+
+import com.zhangbin.paint.beans.OrderBean;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,8 +47,9 @@ public class GraffitiView extends View {
 
     private int screenWidth, screenHeight;//控件传进来的宽高，用来表示该tuyaView的宽高
 
-    private int currentColor = Color.RED;
-    private int currentSize = 5;
+    private int currentPanitColor = Color.RED;
+    private float currentPanitSize = 5;//默认画笔大小
+    private float currentEraserSize = 5;
     private int currentStyle = 1;
 
     private int[] paintColor;//颜色集合
@@ -108,13 +109,13 @@ public class GraffitiView extends View {
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         if (currentStyle == 1) {//普通画笔功能
-            mPaint.setStrokeWidth(currentSize);
-            mPaint.setColor(currentColor);
+            mPaint.setStrokeWidth(currentPanitSize);
+            mPaint.setColor(currentPanitColor);
         } else {//橡皮擦
             mPaint.setAlpha(0);
             mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));//这两个方法一起使用才能出现橡皮擦效果
             mPaint.setColor(Color.TRANSPARENT);
-            mPaint.setStrokeWidth(50);
+            mPaint.setStrokeWidth(currentEraserSize);
             currentDrawGraphics = DRAW_PATH;//使用橡皮擦时默认用线的方式擦除
         }
     }
@@ -294,30 +295,62 @@ public class GraffitiView extends View {
         }
     }
 
+//----------------------------------------------------------------------------------
 
-    //选择画笔大小
-    public void selectPaintSize(int which) {
-
-        currentSize = which;
+    /**
+     * 设置画笔大小
+     * @param paintSize 大小
+     */
+    public void setPaintSize(float paintSize) {
+        currentPanitSize = paintSize;
+        setPaintStyle();
+    }
+    /**
+     * 设置画笔大小
+     * @param eraserSize 大小
+     */
+    public void setEraserSize(float eraserSize) {
+        currentEraserSize = eraserSize;
         setPaintStyle();
     }
 
-    //设置画笔颜色
-    public void selectPaintColor(int which) {
-        currentColor = paintColor[which];
+    /**
+     * 设置画笔的颜色
+     * @param paintColor
+     */
+    public void setPaintColor(int paintColor) {
+        currentPanitColor = paintColor;
         setPaintStyle();
     }
-
-
-
-
-
-
     //设置背景图
     public void setSrcBitmap(Bitmap bitmap){
         this.srcBitmap = bitmap;
     }
+    public void setReaserPath(String uuid,List<OrderBean.DataBean> lst) {
+        if (mPath == null) {
+            mPath = new Path();
+        }
+        dp = new DrawPath();
+        dp.path = mPath;
+        dp.paint = mPaint;
+        mPaint.setAlpha(0);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));//这两个方法一起使用才能出现橡皮擦效果
+        mPaint.setColor(Color.TRANSPARENT);
+        mPaint.setStrokeWidth(currentEraserSize);
+        currentDrawGraphics = DRAW_PATH;//使用橡皮擦时默认用线的方式擦除
+        OrderBean.DataBean start = lst.get(0);
 
+        mPath.moveTo(start.x, start.y);
+        for (int i = 1; i < lst.size() - 1; i++) {
+            OrderBean.DataBean end = lst.get(i);
+            mPath.lineTo(end.x, end.y);
+        }
+        mCanvas.drawPath(mPath, mPaint);
+        //将一条完整的路径保存下来(相当于入栈操作)
+        savePath.add(dp);
+        invalidate();
+        mPath = null;// 重新置空
+    }
 
     /**
      * 以下为画图方式

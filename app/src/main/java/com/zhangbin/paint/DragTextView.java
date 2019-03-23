@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import java.lang.reflect.Field;
 

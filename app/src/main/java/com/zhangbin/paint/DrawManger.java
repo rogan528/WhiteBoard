@@ -6,7 +6,6 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
 import com.google.gson.Gson;
-import com.zhangbin.GraffitiView;
 import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.List;
 
 /**
  * @ClassName DrawManger
- * @Description TODO
- * @Author yangjie
+ * @Description 操作json指令的管理类
+ * @Author 张彬
  * @Date 2019/3/20 下午1:13
  */
 public class DrawManger {
@@ -54,18 +53,6 @@ public class DrawManger {
 
     }
 
-    public DrawManger PreOrder() {
-        if (cur <= 0) {
-            this.orderBean = null;
-            return this;
-        }
-        cur = cur - 1;
-        this.orderBean = (OrderBean) listorderBean.get(cur);
-        return this;
-
-
-    }
-
 
     public void ExecuteOrder() {
         if (orderBean == null) {
@@ -74,12 +61,10 @@ public class DrawManger {
 
         Log.i("orderorder", gson.toJson(orderBean));
 
-        if (!orderBean.getType().equals("")) {
-            int type = Util.toInteger(orderBean.getType());
-            Log.i("itemorderorder", orderBean.getType());
-            List<OrderBean.DataBean> lst = this.orderBean.getData();
-
-//            EnumOder o = EnumOder.values()[type];
+        if (!orderBean.type.equals("")) {
+            int type = Util.toInteger(orderBean.type);
+            Log.i("itemorderorder", orderBean.type);
+            List<OrderBean.DataBean> lst = this.orderBean.data;
             switch (type) {
                 case 300:
                     break;
@@ -92,24 +77,26 @@ public class DrawManger {
                 case 304:
                     break;
                 case 305:
-                    //this.view.setPaintSize(this.orderBean.getUuid(),Integer.parseInt(this.orderBean.getValue()));
+                    this.view.setPaintSize(Float.parseFloat(this.orderBean.value+""));
                     break;
                 case 306:
-                   // this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
+                   this.view.setPaintColor(Color.parseColor(this.orderBean.value));
                     break;
                 case 307:
-                    //this.view.setReaserSize(this.orderBean.getUuid(),Float.parseFloat(this.orderBean.getValue()));
+                    this.view.setEraserSize(Float.parseFloat(this.orderBean.value+""));
                     break;
                 case 308:
                     break;
                 case 309:
-                   // this.view.setPaintColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
+                   // this.view.setCharacterColor(this.orderBean.getUuid(),Color.parseColor(this.orderBean.getValue()));
                     break;
                 case 400:
-                    //this.view.orderDraw(lst);
+                    //设置画笔路径
+                    //this.view.setPanitPath(lst);
                     break;
                 case 401:
-                   // this.view.orderReaser(this.orderBean.getUuid(),lst);
+                    //设置橡皮路径
+                   this.view.setReaserPath(this.orderBean.uuid,lst);
                     break;
                 case 402:
                     break;
@@ -118,18 +105,23 @@ public class DrawManger {
                 case 404:
                     break;
                 case 405:
+                    //画直线
                    // this.view.orderDrawLIne(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 406:
+                    //画虚线
                    // this.view.orderDrawDashLine(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 407:
-                   // this.view.orderDrawLRectangle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
+                    //画矩形
+                    //this.view.orderDrawLRectangle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 408:
+                    //画椭圆
                     //this.view.orderDrawCircle(this.orderBean.getUuid(),false,this.orderBean.getX1(), this.orderBean.getY1(), this.orderBean.getX2(), this.orderBean.getY2());
                     break;
                 case 409:
+                    //拖拽操作
                     //this.view.orderDragView(this.orderBean.getUuid(),this.orderBean.getX(), this.orderBean.getY());
                     break;
                 case 410:
@@ -152,7 +144,7 @@ public class DrawManger {
                     this.view.recover();
                     break;
                 case 503:
-                    this.webView.evaluateJavascript("javascript:JumpPage(" + this.orderBean.getCurrentPage() + "," + this.orderBean.getCurrentAnimation() + ",1)", new ValueCallback<String>() {
+                    this.webView.evaluateJavascript("javascript:JumpPage(" + this.orderBean.currentPage + "," + this.orderBean.currentAnimation + ",1)", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String value) {
 
@@ -161,7 +153,7 @@ public class DrawManger {
                    // this.view.setPage(this.orderBean.getCurrentPage());
                     break;
                 case 504:
-                    this.webView.evaluateJavascript("javascript:LastSlideS(" + this.orderBean.getCurrentPage() + "," + this.orderBean.getCurrentAnimation() + ")", new ValueCallback<String>() {
+                    this.webView.evaluateJavascript("javascript:LastSlideS(" + this.orderBean.currentPage + "," + this.orderBean.currentAnimation + ")", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String value) {
 
@@ -170,7 +162,7 @@ public class DrawManger {
                    // this.view.setPage(this.orderBean.getCurrentPage());
                     break;
                 case 505:
-                    this.webView.evaluateJavascript("javascript:NextSlideS(" + this.orderBean.getCurrentPage() + "," + this.orderBean.getCurrentAnimation() + ")", new ValueCallback<String>() {
+                    this.webView.evaluateJavascript("javascript:NextSlideS(" + this.orderBean.currentPage + "," + this.orderBean.currentAnimation + ")", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String value) {
 
