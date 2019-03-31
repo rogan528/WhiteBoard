@@ -10,13 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"/>
-    <Button
-        android:id="@+id/jx_back"
-        android:text="解析上一步"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:visibility="gone"/>
     <com.zhangbin.paint.DragTextView
         android:id="@+id/textView"
         android:layout_width="100dp"
@@ -48,21 +41,7 @@
         android:longClickable="false"
         android:layout_gravity="right"
         android:layout_marginRight="120dp"/>
-    <Button
-        android:id="@+id/back"
-        android:text="上一页"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="60dp"
-        android:layout_gravity="right"/>
-    <Button
-        android:id="@+id/next"
-        android:text="下一页"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        />
+
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_gravity="bottom"
@@ -163,7 +142,6 @@
             android:max="30"
             android:progress="5"
             android:visibility="gone" />
-        <include layout="@layout/layout_paintcolor_popup" />
         <LinearLayout
             android:id="@+id/ll_bottom_boardstyle"
             android:layout_width="match_parent"

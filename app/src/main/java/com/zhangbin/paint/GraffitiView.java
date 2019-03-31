@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -194,7 +195,7 @@ public class GraffitiView extends View {
                 //记录最初始的点，画圆矩形箭头会用到
                 startX = event.getX();
                 startY = event.getY();
-
+                Log.e("zhangbin----","startx:"+startX+"y:"+startY);
                 // 每次down下去重新new一个Path
                 mPath = new Path();
                 //每一次记录的路径对象是不一样的
@@ -206,6 +207,7 @@ public class GraffitiView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 touch_move(x, y);
+                Log.e("zhangbin----","x:"+x+"y:"+y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
@@ -307,7 +309,7 @@ public class GraffitiView extends View {
         setPaintStyle();
     }
     /**
-     * 设置画笔大小
+     * 设置橡皮大小
      * @param eraserSize 大小
      */
     public void setEraserSize(float eraserSize) {
@@ -352,6 +354,99 @@ public class GraffitiView extends View {
         invalidate();
         mPath = null;// 重新置空
     }
+    public void orderDraw(List<OrderBean.DataBean> lst) {
+        if (mPath == null) {
+            mPath = new Path();
+        }
+        dp = new DrawPath();
+        dp.path = mPath;
+        dp.paint = mPaint;
+
+        OrderBean.DataBean start = lst.get(0);
+
+        mPath.moveTo(start.x, start.y);
+        for (int i = 1; i < lst.size() - 1; i++) {
+            OrderBean.DataBean end = lst.get(i);
+            mPath.lineTo(end.x, end.y);
+        }
+
+        mCanvas.drawPath(mPath, mPaint);
+        //将一条完整的路径保存下来(相当于入栈操作)
+        savePath.add(dp);
+        invalidate();
+        mPath = null;// 重新置空
+    }
+    public void orderDrawLIne(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
+        if (mPath == null) {
+            mPath = new Path();
+        }
+
+        dp = new DrawPath();
+        dp.path = mPath;
+        dp.paint = mPaint;
+        mPath.moveTo(x1, y1);
+        mPath.quadTo(x1, y1, x2, y2);
+        mCanvas.drawPath(mPath, mPaint);
+        savePath.add(dp);
+        invalidate();
+        if (!isDrag) {
+            savePath.add(dp);
+            mPath = null;// 重新置空
+        }else{
+            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
+            mPath = null;// 重新置空
+        }
+    }
+    public void orderDrawDashLine(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
+        if (mPath == null) {
+            mPath = new Path();
+        }
+        dp = new DrawPath();
+        dp.path = mPath;
+        dp.paint = mPaint;
+
+        mPaint.setARGB(255, 0, 0, 0);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setPathEffect(new DashPathEffect(new float[]{5, 10, 15, 20}, 0));
+
+        mPath.quadTo(x1, y1, x2, y2);
+        mCanvas.drawPath(mPath, mPaint);
+
+        invalidate();
+        if (!isDrag) {
+            savePath.add(dp);
+            mPath = null;// 重新置空
+        }else{
+            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
+            mPath = null;// 重新置空
+        }
+
+    }
+    public void orderDrawCircle(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
+
+        if (mPath == null) {
+            mPath = new Path();
+        }
+        dp = new DrawPath();
+        dp.path = mPath;
+        dp.paint = mPaint;
+        mPath.moveTo(x1, y1);
+        mPath.reset();//清空以前的路径，否则会出现无数条从起点到末位置的线
+        RectF rectF = new RectF(x1, y1, x2, y2);
+        mPath.addOval(rectF, Path.Direction.CCW);//画椭圆
+        mCanvas.drawPath(mPath, mPaint);
+        invalidate();
+        if (!isDrag) {
+            savePath.add(dp);
+            mPath = null;// 重新置空
+        }else{
+            Log.e("itemorderorder","---"+savePath.size()+"--"+deletePath.size());
+            mPath = null;// 重新置空
+        }
+    }
+
+
+
     public void orderDrawLRectangle(String uuid,boolean isDrag,float x1, float y1, float x2, float y2) {
         if (mPath == null) {
             mPath = new Path();
@@ -366,11 +461,6 @@ public class GraffitiView extends View {
         mCanvas.drawPath(mPath, mPaint);
         invalidate();
         if (!isDrag) {
-            /*drawMap.put(uuid,uuid);
-            drawMap.put("startX1407",x1+"");
-            drawMap.put("startY1407",y1+"");
-            drawMap.put("startX2407",x2+"");
-            drawMap.put("startY2407",y2+"");*/
             savePath.add(dp);
             mPath = null;// 重新置空
         }else{

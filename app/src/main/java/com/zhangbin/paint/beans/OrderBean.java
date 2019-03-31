@@ -37,13 +37,13 @@ public class OrderBean {
     public long startTime;
     public String type;
     public String uuid;
-    public int x1;
-    public int x2;
-    public int y1;
-    public int y2;
+    public float x1;
+    public float x2;
+    public float y1;
+    public float y2;
     public String value;
-    public int x;
-    public int y;
+    public float x;
+    public float y;
     public int currentAnimation;
     public int currentPage;
     public int h;
@@ -62,8 +62,8 @@ public class OrderBean {
          * y : -184
          */
 
-        public int x;
-        public int y;
+        public float x;
+        public float y;
 
         public static DataBean objectFromData(String str) {
 

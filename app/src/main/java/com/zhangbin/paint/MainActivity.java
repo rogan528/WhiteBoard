@@ -27,27 +27,20 @@ import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, MediaPlayer.OnPreparedListener {
+public class MainActivity extends Activity implements View.OnClickListener, MediaPlayer.OnPreparedListener {
 
     private String url = "https://www.baidu.com/";
-    //private String url = "http://192.168.8.37:8081/83461B08A0401FC68D9C2A7E036C4710/h5/h5.html?aaaa";
-    //  private String url = "file:///android_asset/javascript.html";
 
 
     private WebView mWebView;
-    private Button mBack;//上一页
     private Button mOpen;//打开
     private LinearLayout mBottom;
-    private Button mNext;//下一页
-    private Button mJxBack;//上一步
     private Button mJxNext;//下一步
     private ImageView mPaintStyle;//画笔
     private ImageView mEraserStyle;//橡皮
     private EditText mPaintSize;//设置画笔大小
     private EditText mEraserSize;//设置橡皮大小
     private EditText mPaintColor;//设置颜色
-    private LinearLayout ll_paintcolor_state;
-    private RadioGroup rg_paint_color;
     private Button mBtnSaved;//保存按钮
     private Button mBtnRevoke;//撤销按钮
     private Button mBtnClean;//清除按钮
@@ -101,8 +94,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         mPaintSize = findViewById(R.id.et_paint_size);//设置画笔大小
         mEraserSize = findViewById(R.id.et_eraser_size);//设置橡皮大小
         mPaintColor = findViewById(R.id.et_paint_color);//设置颜色
-        ll_paintcolor_state = findViewById(R.id.ll_paintcolor_state);
-        rg_paint_color = findViewById(R.id.rg_paint_color);
         mBtnRevoke = findViewById(R.id.btn_revoke);
         mBtnClean = findViewById(R.id.btn_clean);
         mBtnPicselect = findViewById(R.id.btn_picselect);
@@ -110,13 +101,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         mBtnDrawRec = findViewById(R.id.btn_drawrec);
         mBtnDrawRrow = findViewById(R.id.btn_drawarrow);
         mBtnSaved = findViewById(R.id.btn_savesd);
-        mBack = findViewById(R.id.back);
-        mNext = findViewById(R.id.next);
         mOpen = findViewById(R.id.open);
         mBottom = findViewById(R.id.ll_bottom);
         mVideoView = findViewById(R.id.videoView);
         mTextView = findViewById(R.id.textView);
-        mJxBack = findViewById(R.id.jx_back);
         mJxNext = findViewById(R.id.jx_next);
     }
 
@@ -183,8 +171,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         /*tuyaView.setPaintSize(paintSizeValue);
         tuyaView.setReaserSize("1",eRaserSizeValue);
         tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
-        mBack.setOnClickListener(this);
-        mNext.setOnClickListener(this);
         mOpen.setOnClickListener(this);
         mVideoView.setOnPreparedListener(this);
         initSetting();
@@ -214,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mPaintSize.getText().toString().trim())) {
                     paintSizeValue = Float.parseFloat(mPaintSize.getText().toString().trim());
-                    // tuyaView.setPaintSize("1",paintSizeValue);
+                    tuyaView.setPaintSize(paintSizeValue);
                 }
             }
         });
@@ -233,7 +219,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mEraserSize.getText().toString().trim())) {
                     eRaserSizeValue = Float.parseFloat(mEraserSize.getText().toString().trim());
-                    //tuyaView.setReaserSize("1",eRaserSizeValue);
+                    tuyaView.setEraserSize(eRaserSizeValue);
                 }
             }
         });
@@ -252,9 +238,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             public void afterTextChanged(Editable s) {
                 if (!"".equals(mPaintColor.getText().toString().trim()) && mPaintColor.getText().toString().trim().length() == 7) {
                     mPaintColorValue = mPaintColor.getText().toString().trim();
-                    selectPaintColorAndSetting(Color.parseColor(mPaintColorValue));
+                    tuyaView.setPaintColor(Color.parseColor(mPaintColorValue));
                 } else {
-                    selectPaintColorAndSetting(Color.parseColor("#DC143C"));
+                    tuyaView.setPaintColor(Color.parseColor("#DC143C"));
                 }
             }
         });
@@ -294,7 +280,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
     private void initListener() {
         mPaintStyle.setOnClickListener(this);//画笔的监听
         mEraserStyle.setOnClickListener(this);//橡皮的监听
-        ll_paintcolor_state.setOnClickListener(this);
         mBtnSaved.setOnClickListener(this);
         mBtnRevoke.setOnClickListener(this);
         mBtnClean.setOnClickListener(this);
@@ -302,9 +287,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         mBtnDrawCycle.setOnClickListener(this);
         mBtnDrawRec.setOnClickListener(this);
         mBtnDrawRrow.setOnClickListener(this);
-        mBack.setOnClickListener(this);
-        mNext.setOnClickListener(this);
-        mJxBack.setOnClickListener(this);
         mJxNext.setOnClickListener(this);
     }
 
@@ -324,33 +306,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             case R.id.jx_next:
                 drawManger.NextOrder().ExecuteOrder();
                 break;
-            case R.id.back:
-                /*mWebView.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        // 注意调用的JS方法名要对应上
-                        // 调用javascript的callJS()方法
-                        mWebView.loadUrl("javascript:callJS()");
-                    }
-                });*/
-                mWebView.evaluateJavascript("javascript:LastSlide()", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String value) {
-
-                    }
-                });
-                break;
             case R.id.open:
                 aboutOpenSetting();
-                break;
-            case R.id.next:
-                mWebView.evaluateJavascript("javascript:NextSlide()", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String value) {
-
-                    }
-                });
                 break;
             //画笔
             case R.id.iv_paintstyle:
@@ -360,15 +317,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
             case R.id.iv_reaserstyle:
                 aboutReaserStyleSetting();
                 break;
-            /*//颜色
-            case R.id.iv_paint_color:
-                changeColorAndSizeState(View.VISIBLE, View.GONE);
-                rg_paint_color.setOnCheckedChangeListener(this);
-                break;*/
-            //画笔大小
-            /*case R.id.iv_paint_size:
-                changeColorAndSizeState(View.GONE, View.VISIBLE);
-                break;*/
             //撤销按钮
             case R.id.btn_revoke://撤销
                 //Toast.makeText(MainActivity.this,"撤销按钮",Toast.LENGTH_SHORT).show();
@@ -417,11 +365,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         }
     }
 
-    //切换画笔颜色和画笔尺寸显隐状态
-    private void changeColorAndSizeState(int visible, int gone) {
-        ll_paintcolor_state.setVisibility(visible);
-
-    }
 
     //打开
     private void aboutOpenSetting() {
@@ -438,7 +381,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
 
     //画笔样式设置
     private void aboutPaintStyleSetting() {
-        changeColorAndSizeState(View.GONE, View.GONE);
+
         if (mEraserStyle.getVisibility() != View.VISIBLE) {
             if (isPaint) {//当前为画笔,点击后变为橡皮擦
                 paintStyleSettingDesc(R.drawable.reaser_style, select_paint_style_eraser, false);
@@ -454,7 +397,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
 
     //橡皮样式设置
     private void aboutReaserStyleSetting() {
-        changeColorAndSizeState(View.GONE, View.GONE);
         reaserStyleSettingDesc(select_paint_style_eraser, false);
     }
 
@@ -471,38 +413,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Radi
         isPaint = styleTarget;
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        String value;
-        switch (checkedId) {
-            //处理颜色
-            case R.id.rb_purple:
-                //value = "#E372FF";
-                value = "#0000FF";
-                selectPaintColorAndSetting(Color.parseColor(value));
-                break;
-            case R.id.rb_orange:
-                value = "#FE7C2E";
-                selectPaintColorAndSetting(Color.parseColor(value));
-                break;
-            case R.id.rb_green:
-                value = "#6CD685";
-                selectPaintColorAndSetting(Color.parseColor(value));
-                break;
-            case R.id.rb_yellow:
-                value = "#FFB42B";
-                selectPaintColorAndSetting(Color.parseColor(value));
-                break;
-            case R.id.rb_black:
-                value = "#000000";
-                selectPaintColorAndSetting(Color.parseColor(value));
-                break;
-        }
-    }
 
-    //选择画笔颜色
-    private void selectPaintColorAndSetting(int setColor) {
-        // tuyaView.setPaintColor("1",setColor);
-        ll_paintcolor_state.setVisibility(View.GONE);
-    }
+
+
 }
