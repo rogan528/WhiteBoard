@@ -36,15 +36,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private Button mOpen;//打开
     private LinearLayout mBottom;
     private Button mJxNext;//下一步
-    private ImageView mPaintStyle;//画笔
-    private ImageView mEraserStyle;//橡皮
     private EditText mPaintSize;//设置画笔大小
     private EditText mEraserSize;//设置橡皮大小
     private EditText mPaintColor;//设置颜色
-    private Button mBtnSaved;//保存按钮
-    private Button mBtnRevoke;//撤销按钮
-    private Button mBtnClean;//清除按钮
-    private Button mBtnPicselect;//选择图片按钮
     private Button mBtnDrawCycle;//圆形按钮
     private Button mBtnDrawRec;//方形按钮
     private Button mBtnDrawRrow;//箭头按钮
@@ -88,19 +82,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
      */
     private void initView() {
         mWebView = findViewById(R.id.wv);
-        mWebView = findViewById(R.id.wv);
-        mPaintStyle = findViewById(R.id.iv_paintstyle);//画笔
-        mEraserStyle = findViewById(R.id.iv_reaserstyle);//橡皮
         mPaintSize = findViewById(R.id.et_paint_size);//设置画笔大小
         mEraserSize = findViewById(R.id.et_eraser_size);//设置橡皮大小
         mPaintColor = findViewById(R.id.et_paint_color);//设置颜色
-        mBtnRevoke = findViewById(R.id.btn_revoke);
-        mBtnClean = findViewById(R.id.btn_clean);
-        mBtnPicselect = findViewById(R.id.btn_picselect);
         mBtnDrawCycle = findViewById(R.id.btn_drawcycle);
         mBtnDrawRec = findViewById(R.id.btn_drawrec);
         mBtnDrawRrow = findViewById(R.id.btn_drawarrow);
-        mBtnSaved = findViewById(R.id.btn_savesd);
         mOpen = findViewById(R.id.open);
         mBottom = findViewById(R.id.ll_bottom);
         mVideoView = findViewById(R.id.videoView);
@@ -278,12 +265,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
      * 监听事件
      */
     private void initListener() {
-        mPaintStyle.setOnClickListener(this);//画笔的监听
-        mEraserStyle.setOnClickListener(this);//橡皮的监听
-        mBtnSaved.setOnClickListener(this);
-        mBtnRevoke.setOnClickListener(this);
-        mBtnClean.setOnClickListener(this);
-        mBtnPicselect.setOnClickListener(this);
+        findViewById(R.id.btn_undo).setOnClickListener(this);
+        findViewById(R.id.btn_redo).setOnClickListener(this);
+        findViewById(R.id.btn_clear).setOnClickListener(this);
+        findViewById(R.id.btn_paintstyle).setOnClickListener(this);
         mBtnDrawCycle.setOnClickListener(this);
         mBtnDrawRec.setOnClickListener(this);
         mBtnDrawRrow.setOnClickListener(this);
@@ -310,27 +295,24 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
                 aboutOpenSetting();
                 break;
             //画笔
-            case R.id.iv_paintstyle:
+            case R.id.btn_paintstyle:
                 aboutPaintStyleSetting();
                 break;
             //橡皮
-            case R.id.iv_reaserstyle:
+            case R.id.btn_reaserstyle:
                 aboutReaserStyleSetting();
                 break;
             //撤销按钮
-            case R.id.btn_revoke://撤销
-                //Toast.makeText(MainActivity.this,"撤销按钮",Toast.LENGTH_SHORT).show();
+            case R.id.btn_undo:
                 tuyaView.undo();
                 break;
-            //前进按钮
-            case R.id.btn_savesd://前进
-                //Toast.makeText(MainActivity.this,"前进按钮",Toast.LENGTH_SHORT).show();
-                tuyaView.recover();
-                break;
-            //清除按钮 重做
-            case R.id.btn_clean:
-                //Toast.makeText(MainActivity.this,"清除按钮",Toast.LENGTH_SHORT).show();
+            //恢复按钮
+            case R.id.btn_redo:
                 tuyaView.redo();
+                break;
+            //清除按钮
+            case R.id.btn_clear:
+                tuyaView.clear();
                 mWebView.setBackgroundResource(R.color.white);
                 //恢复成画笔状态
                 tuyaView.setSrcBitmap(null);
@@ -358,7 +340,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         if (isPaint) {
             tuyaView.drawGraphics(drawArrow);
         } else {//当前为橡皮擦
-            mPaintStyle.setBackgroundResource(R.drawable.paint_style);
+            //mPaintStyle.setBackgroundResource(R.drawable.paint_style);
             tuyaView.selectPaintStyle(select_paint_style_paint);
             tuyaView.drawGraphics(drawArrow);
             isPaint = true;
@@ -382,7 +364,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     //画笔样式设置
     private void aboutPaintStyleSetting() {
 
-        if (mEraserStyle.getVisibility() != View.VISIBLE) {
+        if (findViewById(R.id.btn_reaserstyle).getVisibility() != View.VISIBLE) {
             if (isPaint) {//当前为画笔,点击后变为橡皮擦
                 paintStyleSettingDesc(R.drawable.reaser_style, select_paint_style_eraser, false);
             } else {
@@ -408,7 +390,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
 
     //画笔样式设置详情
     private void paintStyleSettingDesc(int paintStyleResouce, int paintStyle, boolean styleTarget) {
-        mPaintStyle.setBackgroundResource(paintStyleResouce);
+        //mPaintStyle.setBackgroundResource(paintStyleResouce);
         tuyaView.selectPaintStyle(paintStyle);
         isPaint = styleTarget;
     }
