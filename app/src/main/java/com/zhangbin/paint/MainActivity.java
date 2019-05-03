@@ -61,7 +61,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private static final int DRAW_RECTANGLE = 2;//画矩形
     private static final int DRAW_ARROW = 3;//画箭头
     private Toast mToast;
-    private DragVideoView mVideoView;
     private DragTextView mTextView;
     private String videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     private float paintSizeValue = 5;//画笔的默认大小
@@ -78,7 +77,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         initWebSetting();
         initData();
         initListener();
-        setupVideo();
         initDragView();
 
     }
@@ -103,41 +101,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         mBtnSaved = findViewById(R.id.btn_savesd);
         mOpen = findViewById(R.id.open);
         mBottom = findViewById(R.id.ll_bottom);
-        mVideoView = findViewById(R.id.videoView);
         mTextView = findViewById(R.id.textView);
         mJxNext = findViewById(R.id.jx_next);
-    }
-
-    /**
-     * 播放视频
-     */
-    private void setupVideo() {
-        Uri uri = Uri.parse(videoUrl);
-        MediaController mediaController = new MediaController(this);
-        mVideoView.setMediaController(mediaController);
-        mediaController.setVisibility(View.GONE);
-        mVideoView.setVideoURI(uri);
-        mVideoView.start();
     }
 
     /**
      * 拖动视频
      */
     private void initDragView() {
-
-        mVideoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Log.e("zhangbin----","5555555555555555555");
-            }
-        });
-        mVideoView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                //Log.e("zhangbin----","66666666666666666");
-                return false;
-            }
-        });
         mTextView.setTextColor(Color.parseColor("#0000CD"));
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +143,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView.setReaserSize("1",eRaserSizeValue);
         tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
         mOpen.setOnClickListener(this);
-        mVideoView.setOnPreparedListener(this);
         initSetting();
         String input = Util.readFileFromAssets(this, "LiveClient.json");
         Gson gson = new Gson();
