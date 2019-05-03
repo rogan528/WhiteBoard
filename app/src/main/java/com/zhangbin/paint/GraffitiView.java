@@ -51,7 +51,7 @@ public class GraffitiView extends View {
 
     private int currentPanitColor = Color.RED;
     private float currentPanitSize = 5;//默认画笔大小
-    private float currentEraserSize = 5;
+    private float currentEraserSize = 25;
     private int currentStyle = 1;
 
     private int[] paintColor;//颜色集合

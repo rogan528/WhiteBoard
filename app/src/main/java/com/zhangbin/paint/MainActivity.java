@@ -36,8 +36,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private Button mOpen;//打开
     private LinearLayout mBottom;
     private Button mJxNext;//下一步
-    private ImageView mPaintStyle;//画笔
-    private ImageView mEraserStyle;//橡皮
+    private Button mPaintStyle;//画笔
+    private Button mEraserStyle;//橡皮
     private EditText mPaintSize;//设置画笔大小
     private EditText mEraserSize;//设置橡皮大小
     private EditText mPaintColor;//设置颜色
@@ -223,24 +223,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebContentsDebuggingEnabled(true);
         mWebView.loadUrl(url);
-     /*   mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
-                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
-                b.setTitle("Alert");
-                b.setMessage(message);
-                b.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        result.confirm();
-                    }
-                });
-                b.setCancelable(false);
-                b.create().show();
-                return true;
-            }
-
-        });*/
 
     }
 
