@@ -28,7 +28,7 @@
         android:layout_gravity="left"/>
     <Button
         android:id="@+id/open"
-        android:text="打开"
+        android:text="关闭"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,43 +47,23 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
                 <Button
-                    android:id="@+id/btn_revoke"
+                    android:id="@+id/btn_undo"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tuya_revoke_selector"
-                    android:button="@null" />
+                    android:text="撤销"/>
             <Button
-                android:id="@+id/btn_savesd"
+                android:id="@+id/btn_redo"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tuya_save_selector"
-                android:button="@null" />
+                android:text="还原" />
                 <Button
-                    android:id="@+id/btn_clean"
+                    android:id="@+id/btn_clear"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tuya_clean_selector"
-                    android:button="@null" />
-
-                <Button
-                    android:id="@+id/btn_picselect"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/tuya_picselect_selector"
-                    android:button="@null"
-                    android:visibility="gone"/>
+                    android:text="清空"/>
 
                 <Button
                     android:id="@+id/btn_drawcycle"
@@ -133,7 +113,7 @@
             android:orientation="horizontal"
             >
         <Button
-            android:id="@+id/iv_paintstyle"
+            android:id="@+id/btn_paint"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

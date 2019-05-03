@@ -131,14 +131,15 @@ public class DrawManger {
                     break;
                 case 500:
                     this.view.clearAnimation();
+                    this.view.clear();
                     break;
                 case 501:
                     //撤销
                     this.view.undo();
                     break;
                 case 502:
-                    //回退
-                    this.view.recover();
+                    //还原
+                    this.view.redo();
                     break;
             }
 
