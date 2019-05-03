@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -126,53 +126,26 @@
                     android:button="@null"
                     android:visibility="gone" />
         </LinearLayout>
-        <SeekBar
-            android:id="@+id/sb_size"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ll_bottom_boardstyle"
-            android:max="30"
-            android:progress="5"
-            android:visibility="gone" />
         <LinearLayout
             android:id="@+id/ll_bottom_boardstyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-        <ImageView
+        <Button
             android:id="@+id/iv_paintstyle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/paint_style"
+            android:text="画笔"
             />
-            <ImageView
+            <Button
                 android:id="@+id/iv_reaserstyle"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/reaser_style"
-                android:visibility="visible"
+                android:text="橡皮"
                 />
-
-            <ImageView
-                android:id="@+id/iv_paint_color"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/paint_color"
-                android:visibility="gone"/>
-            <ImageView
-                android:id="@+id/iv_paint_size"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/paint_size"
-                android:visibility="gone"/>
             <EditText
                 android:id="@+id/et_paint_color"
                 android:layout_width="0dp"
