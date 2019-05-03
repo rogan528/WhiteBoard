@@ -17,7 +17,7 @@
         android:clickable="false"
         android:longClickable="false"
         android:layout_gravity="left"
-        android:text="Demo文字! \n 测试移动!"
+        android:text="基础作业! \n 三年级!"
         android:gravity="center"
         android:layout_marginLeft="180dp"/>
     <Button
@@ -40,8 +40,8 @@
         android:clickable="false"
         android:longClickable="false"
         android:layout_gravity="right"
-        android:layout_marginRight="120dp"
-        android:visibility="gone"/>
+        android:layout_marginRight="120dp"/>
+
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_gravity="bottom"
@@ -55,23 +55,33 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
                 <Button
-                    android:id="@+id/btn_undo"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_revoke"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="撤销" />
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tuya_revoke_selector"
+                    android:button="@null" />
+            <Button
+                android:id="@+id/btn_savesd"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tuya_save_selector"
+                android:button="@null" />
                 <Button
-                    android:id="@+id/btn_redo"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_clean"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="恢复" />
-                <Button
-                    android:id="@+id/btn_clear"
-                    android:layout_width="0dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="清空"/>
+                    android:background="@drawable/tuya_clean_selector"
+                    android:button="@null" />
+
                 <Button
                     android:id="@+id/btn_picselect"
                     android:layout_width="0dp"
@@ -138,19 +148,22 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-             <Button
-                android:id="@+id/btn_paintstyle"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="画笔"
+        <ImageView
+            android:id="@+id/iv_paintstyle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/paint_style"
             />
-            <Button
-                android:id="@+id/btn_reaserstyle"
+            <ImageView
+                android:id="@+id/iv_reaserstyle"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="橡皮"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/reaser_style"
+                android:visibility="visible"
                 />
 
             <ImageView

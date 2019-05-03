@@ -239,7 +239,7 @@ public class GraffitiView extends View {
     /**
      * 重做
      */
-    public void clear() {
+    public void redo() {
         if (savePath != null && savePath.size() > 0) {
             savePath.clear();
             redrawOnBitmap();
@@ -265,7 +265,7 @@ public class GraffitiView extends View {
     /**
      * 恢复，恢复的核心就是将删除的那条路径重新添加到savapath中重新绘画即可
      */
-    public void redo() {
+    public void recover() {
 
         if (deletePath.size() > 0) {
 

@@ -137,8 +137,8 @@ public class DrawManger {
                     this.view.undo();
                     break;
                 case 502:
-                    //恢复
-                    this.view.redo();
+                    //回退
+                    this.view.recover();
                     break;
             }
 
