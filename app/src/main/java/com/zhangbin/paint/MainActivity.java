@@ -286,7 +286,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
                 mWebView.setBackgroundResource(R.color.white);
                 //恢复成画笔状态
                 tuyaView.setSrcBitmap(null);
-                paintStyleSettingDesc(R.drawable.paint_style, select_paint_style_paint, true);
+                paintStyleSettingDesc(select_paint_style_paint, true);
                 tuyaView.drawGraphics(DRAW_PATH);
                 break;
             //以下为画图形状按钮
@@ -333,18 +333,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
 
     //画笔样式设置
     private void aboutPaintStyleSetting() {
-
-        if (mEraserStyle.getVisibility() != View.VISIBLE) {
-            if (isPaint) {//当前为画笔,点击后变为橡皮擦
-                paintStyleSettingDesc(R.drawable.reaser_style, select_paint_style_eraser, false);
-            } else {
-                paintStyleSettingDesc(R.drawable.paint_style, select_paint_style_paint, true);
-                tuyaView.drawGraphics(DRAW_PATH);
-            }
-        } else {
-            paintStyleSettingDesc(R.drawable.paint_style, select_paint_style_paint, true);
-            tuyaView.drawGraphics(DRAW_PATH);
-        }
+        paintStyleSettingDesc(select_paint_style_paint, true);
+        tuyaView.drawGraphics(DRAW_PATH);
     }
 
     //橡皮样式设置
@@ -359,8 +349,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     }
 
     //画笔样式设置详情
-    private void paintStyleSettingDesc(int paintStyleResouce, int paintStyle, boolean styleTarget) {
-        mPaintStyle.setBackgroundResource(paintStyleResouce);
+    private void paintStyleSettingDesc(int paintStyle, boolean styleTarget) {
+        //mPaintStyle.setBackgroundResource(paintStyleResouce);
         tuyaView.selectPaintStyle(paintStyle);
         isPaint = styleTarget;
     }
