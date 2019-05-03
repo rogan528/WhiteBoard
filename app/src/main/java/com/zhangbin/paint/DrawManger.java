@@ -23,7 +23,7 @@ public class DrawManger {
     private WebView webView;
     private Gson gson = new Gson();
 
-    private int cur;
+    private int cur=-1;
 
     private OrderBean orderBean;
     private ArrayList listorderBean = new ArrayList<OrderBean>();
@@ -41,9 +41,8 @@ public class DrawManger {
             this.orderBean = null;
             return this;
         }
-
-        this.orderBean = (OrderBean) listorderBean.get(cur);
         cur = cur + 1;
+        this.orderBean = (OrderBean) listorderBean.get(cur);
         return this;
 
     }
@@ -58,7 +57,7 @@ public class DrawManger {
 
         if (!orderBean.type.equals("")) {
             int type = Util.toInteger(orderBean.type);
-            Log.i("itemorderorder", orderBean.type+"----"+this.orderBean.uuid);
+            Log.i("itemorderorder", orderBean.type);
             List<OrderBean.DataBean> lst = this.orderBean.data;
             switch (type) {
                 case 300:
