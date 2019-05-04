@@ -1,4 +1,4 @@
-package com.zhangbin.paint.util;
+package com.zhangbin.paint;
 
 import android.content.Context;
 
@@ -8,6 +8,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+/**
+ * @ClassName Util
+ * @Description TODO
+ * @Author yangjie
+ * @Date 2019/3/20 下午1:31
+ */
 public class Util {
     public static Integer toInteger(Object object) {
         if (object == null) {
