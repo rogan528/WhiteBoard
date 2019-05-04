@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <FrameLayout
+        android:id="@+id/pptLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+    </FrameLayout>
     <WebView
         android:id="@+id/wv"
         android:layout_width="match_parent"
