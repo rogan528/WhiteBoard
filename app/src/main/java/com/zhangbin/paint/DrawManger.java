@@ -7,6 +7,7 @@ import android.webkit.WebView;
 
 import com.google.gson.Gson;
 import com.zhangbin.paint.beans.OrderBean;
+import com.zhangbin.paint.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;

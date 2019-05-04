@@ -9,11 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp">
     </FrameLayout>
-    <WebView
-        android:id="@+id/wv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/ll_bottom"/>
+
     <com.zhangbin.paint.DragTextView
         android:id="@+id/textView"
         android:layout_width="100dp"

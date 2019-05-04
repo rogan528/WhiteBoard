@@ -27,6 +27,7 @@ import com.zhangbin.paint.beans.OrderBean;
 import com.zhangbin.paint.util.ActivityUtil;
 import com.zhangbin.paint.util.DimensionUtils;
 import com.zhangbin.paint.util.ScreenSwitchUtils;
+import com.zhangbin.paint.util.Util;
 import com.zhangbin.paint.whiteboard.OrderDrawManger;
 import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
@@ -35,9 +36,6 @@ import java.util.ArrayList;
 public class MainActivity extends Activity implements View.OnClickListener, MediaPlayer.OnPreparedListener {
 
     private String url = "https://www.baidu.com/";
-
-
-    private WebView mWebView;
     private Button mOpen;//打开
     private LinearLayout mBottom;
     private Button mJxNext;//下一步
@@ -74,9 +72,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         setContentView(R.layout.activity_main);
         mContext = this;
         initView();
-        initWebSetting();
         initData();
-        initAssetsData();
+        //initAssetsData();
         initListener();
         initDragView();
 
@@ -87,15 +84,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         Gson gson = new Gson();
         listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
         }.getType());
-        drawManger = new DrawManger(tuyaView, mWebView);
+        //drawManger = new DrawManger(tuyaView, mWebView);
         drawManger.setListorderBean(listOrderBean);
     }
     /**
      * 初始化控件
      */
     private void initView() {
-        mWebView = findViewById(R.id.wv);
-        mWebView = findViewById(R.id.wv);
         mPaintSize = findViewById(R.id.et_paint_size);//设置画笔大小
         mEraserSize = findViewById(R.id.et_eraser_size);//设置橡皮大小
         mPaintColor = findViewById(R.id.et_paint_color);//设置颜色
@@ -137,7 +132,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         screenHeight = defaultDisplay.getHeight();
         realHeight = screenHeight;
         tuyaView = new GraffitiView(this, screenWidth, realHeight);
-        mWebView.addView(tuyaView);
+        //mWebView.addView(tuyaView);
         tuyaView.requestFocus();
 
         whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
@@ -254,16 +249,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         });
     }
 
-    private void initWebSetting() {
-        WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        //mWebView.setWebViewClient(new WebChromeClient());
-        mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.setWebContentsDebuggingEnabled(true);
-        mWebView.loadUrl(url);
-
-    }
-
     /**
      * 监听事件
      */
@@ -301,7 +286,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.jx_next:
-                drawManger.NextOrder().ExecuteOrder();
+                //drawManger.NextOrder().ExecuteOrder();
+                orderDrawManger.NextOrder().ExecuteOrder();
                 break;
             case R.id.open:
                 aboutOpenSetting();
@@ -326,7 +312,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
             case R.id.btn_clear:
                 //Toast.makeText(MainActivity.this,"清除按钮",Toast.LENGTH_SHORT).show();
                 tuyaView.clear();
-                mWebView.setBackgroundResource(R.color.white);
                 //恢复成画笔状态
                 tuyaView.setSrcBitmap(null);
                 paintStyleSettingDesc(select_paint_style_paint, true);
