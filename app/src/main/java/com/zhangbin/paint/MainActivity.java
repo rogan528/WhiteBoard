@@ -1,7 +1,6 @@
 package com.zhangbin.paint;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -26,8 +24,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhangbin.paint.beans.OrderBean;
-import com.zhangbin.paint.whiteboard.OrderDrawManger;
-import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
 import java.util.ArrayList;
 
@@ -62,17 +58,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private float eRaserSizeValue = 50;//橡皮的默认大小
     private String mPaintColorValue = "#DC143C";//画笔的默认颜色
     private ArrayList<OrderBean> listOrderBean;
-    //private DrawManger drawManger;
-    private Context mContext;
-    private OrderDrawManger orderDrawManger;
-    private WhiteboardPresenter whiteboardPresenter;
-    private FrameLayout pptLayout;
+    private DrawManger drawManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mContext = this;
         initView();
         initWebSetting();
         initData();
@@ -87,7 +78,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private void initView() {
         mWebView = findViewById(R.id.wv);
         mWebView = findViewById(R.id.wv);
-        pptLayout =  findViewById(R.id.pptLayout);
         mPaintSize = findViewById(R.id.et_paint_size);//设置画笔大小
         mEraserSize = findViewById(R.id.et_eraser_size);//设置橡皮大小
         mPaintColor = findViewById(R.id.et_paint_color);//设置颜色
@@ -105,11 +95,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Log.e("zhangbin----","5555555555555555555");
             }
         });
         mTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                //Log.e("zhangbin----","66666666666666666");
                 return false;
             }
         });
@@ -134,13 +126,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
         mOpen.setOnClickListener(this);
         initSetting();
-        String input = Util.readFileFromAssets(this, "LiveClientNew.json");
+        String input = Util.readFileFromAssets(this, "LiveClient.json");
         Gson gson = new Gson();
         listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
         }.getType());
-        whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
-        orderDrawManger = new OrderDrawManger(whiteboardPresenter);
-        orderDrawManger.setListorderBean(listOrderBean);
+        drawManger = new DrawManger(tuyaView, mWebView);
+        drawManger.setListorderBean(listOrderBean);
 
 
     }
@@ -254,7 +245,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.jx_next:
-                orderDrawManger.NextOrder().ExecuteOrder();
+                drawManger.NextOrder().ExecuteOrder();
                 break;
             case R.id.open:
                 aboutOpenSetting();
