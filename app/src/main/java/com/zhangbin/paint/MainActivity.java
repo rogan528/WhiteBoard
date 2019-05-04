@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhangbin.paint.beans.OrderBean;
+import com.zhangbin.paint.util.Util;
 import com.zhangbin.paint.whiteboard.OrderDrawManger;
 import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
@@ -62,7 +63,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private float eRaserSizeValue = 50;//橡皮的默认大小
     private String mPaintColorValue = "#DC143C";//画笔的默认颜色
     private ArrayList<OrderBean> listOrderBean;
-    //private DrawManger drawManger;
     private Context mContext;
     private OrderDrawManger orderDrawManger;
     private WhiteboardPresenter whiteboardPresenter;
