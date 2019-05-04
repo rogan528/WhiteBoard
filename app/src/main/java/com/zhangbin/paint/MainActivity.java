@@ -1,29 +1,34 @@
 package com.zhangbin.paint;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.webkit.ValueCallback;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhangbin.paint.beans.OrderBean;
+import com.zhangbin.paint.util.ActivityUtil;
+import com.zhangbin.paint.util.DimensionUtils;
+import com.zhangbin.paint.util.ScreenSwitchUtils;
+import com.zhangbin.paint.whiteboard.OrderDrawManger;
+import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
 import java.util.ArrayList;
 
@@ -59,19 +64,32 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private String mPaintColorValue = "#DC143C";//画笔的默认颜色
     private ArrayList<OrderBean> listOrderBean;
     private DrawManger drawManger;
-
+    private FrameLayout pptLayout;
+    private WhiteboardPresenter whiteboardPresenter;
+    private Context mContext;
+    private OrderDrawManger orderDrawManger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
         initView();
         initWebSetting();
         initData();
+        initAssetsData();
         initListener();
         initDragView();
 
     }
 
+    private void initAssetsData() {
+        String input = Util.readFileFromAssets(this, "LiveClient.json");
+        Gson gson = new Gson();
+        listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
+        }.getType());
+        drawManger = new DrawManger(tuyaView, mWebView);
+        drawManger.setListorderBean(listOrderBean);
+    }
     /**
      * 初始化控件
      */
@@ -85,6 +103,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         mBottom = findViewById(R.id.ll_bottom);
         mTextView = findViewById(R.id.textView);
         mJxNext = findViewById(R.id.jx_next);
+        pptLayout =  findViewById(R.id.pptLayout);
     }
 
     /**
@@ -121,21 +140,65 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView = new GraffitiView(this, screenWidth, realHeight);
         mWebView.addView(tuyaView);
         tuyaView.requestFocus();
+
+        whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
+        orderDrawManger = new OrderDrawManger(whiteboardPresenter);
+        updateLayout();
         /*tuyaView.setPaintSize(paintSizeValue);
         tuyaView.setReaserSize("1",eRaserSizeValue);
         tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
+        updateLayout();
         mOpen.setOnClickListener(this);
         initSetting();
-        String input = Util.readFileFromAssets(this, "LiveClient.json");
-        Gson gson = new Gson();
-        listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
-        }.getType());
-        drawManger = new DrawManger(tuyaView, mWebView);
-        drawManger.setListorderBean(listOrderBean);
 
 
     }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        boolean isPortrait = ScreenSwitchUtils.getInstance(this).isPortrait();
+        boolean isFullScreen = ScreenSwitchUtils.getInstance(this).isFullScreen();
+        if (!isPortrait && isFullScreen) {
+            ActivityUtil.setFullScreen(this, true);
+        } else if (isPortrait && !isFullScreen) {
+            ActivityUtil.setFullScreen(this, true);
+        }
+        updateLayout();
+        super.onConfigurationChanged(newConfig);
+    }
+    public void updateLayout() {
+        int width = DimensionUtils.getScreenWidth(this);
+        int height = DimensionUtils.getScreenHeight(this);
+        Log.i("ppt宽高1", "宽：" + width + "  高：" + height);
+        Boolean isPortrait = height > width;
+        if (!ActivityUtil.isFullScreen(this) && isPortrait) {
+//            height -= DimensionUtils.getStatusBarHeight(this);
+        }
+        screenHeight = height;
+        //获取宽高
+        int pptLayoutWidth = 0;
+        if (pptLayout != null) {
+            ViewGroup.LayoutParams pptParams = pptLayout.getLayoutParams();
+            pptLayout.setBackgroundColor(Color.TRANSPARENT);
+            if (isPortrait) {   //竖屏
+                pptLayoutWidth = width;
+                height = 3 * width / 4;
+            } else {  //横屏
+                if (DimensionUtils.isPad(this)) {
+                    pptLayoutWidth = (int) (width * 0.72);
+                    height = pptLayoutWidth * 3 / 4;
+                    pptLayout.setBackgroundColor(Color.BLACK);
 
+                } else {
+                    pptLayoutWidth = width;
+                }
+            }
+            pptParams.width = pptLayoutWidth;
+            pptParams.height = height;
+            Log.i("ppt宽高", "宽：" + pptParams.width + "  高：" + height);
+            pptLayout.setLayoutParams(pptParams);
+
+        }
+    }
     private void initSetting() {
         mPaintSize.addTextChangedListener(new TextWatcher() {
             @Override
