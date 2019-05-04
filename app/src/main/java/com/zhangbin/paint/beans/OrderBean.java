@@ -1,74 +1,134 @@
 package com.zhangbin.paint.beans;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * @ClassName OrderBean
- * @Description TODO
- * @Author 张彬
- * @Date 2019/3/20 上午11:23
- */
 public class OrderBean {
 
-
     /**
-     * endTime : 1553152551256
-     * startTime : 1553152549836
-     * type : 407
-     * uuid : {5c34196e-0128-4b5a-8c43-e7a69361f381}
-     * x1 : -352
-     * x2 : 329
-     * y1 : -141
-     * y2 : 174
-     * value : 45
-     * x : -14
-     * y : 36
-     * data : [{"x":-385,"y":-184},{"x":-379,"y":-186},{"x":-370,"y":-190},{"x":-364,"y":-192},{"x":-355,"y":-195},{"x":-337,"y":-198},{"x":-325,"y":-200},{"x":-304,"y":-203},{"x":-283,"y":-207},{"x":-268,"y":-208},{"x":-259,"y":-210},{"x":-256,"y":-210}]
-     * currentAnimation : 1
-     * currentPage : 2
-     * h : 27
-     * text :
-     * w : 8
+     * si : 0
+     * t : 300
+     * s : 223434343
+     * w : 640
+     * h : 480
      */
-
-    public long endTime;
-    public long startTime;
+    @SerializedName("si")
+    public int si;
+    @SerializedName("t")
     public String type;
-    public String uuid;
-    public float x1;
-    public float x2;
-    public float y1;
-    public float y2;
+    @SerializedName("s")
+    public long startTime;
+    @SerializedName("w")
+    public float w;
+    @SerializedName("h")
+    public float h;
+    /**
+     * v : 6
+     */
+    @SerializedName("v")
     public String value;
-    public float x;
-    public float y;
-    public int currentAnimation;
+    /**
+     * cp : 3
+     * ca : 5
+     */
+    @SerializedName("cp")
     public int currentPage;
-    public int h;
-    public String text;
-    public int w;
+    @SerializedName("ca")
+    public int currentAnimation;
+    /**
+     * e : 223434349
+     * th : 30
+     * pc : ffffff
+     * d : [{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":361,"y":110}]
+     */
+    @SerializedName("e")
+    public long endTime;
+    @SerializedName("th")
+    public int strokeWidth;
+    @SerializedName("pc")
+    public String penColor;
+    @SerializedName("d")
     public List<DataBean> data;
-
+    /**
+     * e : 223434349
+     * x : 5.1
+     * y : 5.2
+     * w : 10.1
+     * h : 10.1
+     * u : 2012
+     * tx : 文本输入
+     */
+    @SerializedName("x")
+    public float x;
+    @SerializedName("y")
+    public float y;
+    @SerializedName("u")
+    public String uuid;
+    @SerializedName("tx")
+    public String text;
+    /**
+     * x1 : 100.0
+     * y1 : 100.0
+     * x2 : 100.0
+     * y2 : 100.0
+     */
+    @SerializedName("x1")
+    public float x1;
+    @SerializedName("y1")
+    public float y1;
+    @SerializedName("x2")
+    public float x2;
+    @SerializedName("y2")
+    public float y2;
+    /**
+     * e : 223434349
+     * d : [{"x":364,"y":110},{"x":361,"y":110}]
+     */
     public static OrderBean objectFromData(String str) {
 
         return new Gson().fromJson(str, OrderBean.class);
     }
-
     public static class DataBean {
         /**
-         * x : -385
-         * y : -184
+         * x : 364
+         * y : 110
          */
-
+        @SerializedName("x")
         public float x;
+        @SerializedName("y")
         public float y;
-
         public static DataBean objectFromData(String str) {
 
             return new Gson().fromJson(str, DataBean.class);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "OrderBean{" +
+                "si=" + si +
+                ", type='" + type + '\'' +
+                ", startTime=" + startTime +
+                ", w=" + w +
+                ", h=" + h +
+                ", value='" + value + '\'' +
+                ", currentPage=" + currentPage +
+                ", currentAnimation=" + currentAnimation +
+                ", endTime=" + endTime +
+                ", strokeWidth=" + strokeWidth +
+                ", penColor='" + penColor + '\'' +
+                ", data=" + data +
+                ", x=" + x +
+                ", y=" + y +
+                ", uuid='" + uuid + '\'' +
+                ", text='" + text + '\'' +
+                ", x1=" + x1 +
+                ", y1=" + y1 +
+                ", x2=" + x2 +
+                ", y2=" + y2 +
+                '}';
     }
 }
 

@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView.requestFocus();
 
         whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
-        String input = Util.readFileFromAssets(this, "LiveClient.json");
+        String input = Util.readFileFromAssets(this, "LiveClientNew.json");
         Gson gson = new Gson();
         orderDrawManger = new OrderDrawManger(whiteboardPresenter);
         listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
