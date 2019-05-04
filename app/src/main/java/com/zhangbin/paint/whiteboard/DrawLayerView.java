@@ -72,7 +72,7 @@ public class DrawLayerView
 
     protected final void onDraw(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT);
-        //canvas.translate(getWidth() >> 1, getHeight() >> 1);
+        canvas.translate(getWidth() >> 1, getHeight() >> 1);
         Iterator iterator = this.fabricViewDataList.iterator();
         while (iterator.hasNext()) {
             BaseDraw next = (BaseDraw) iterator.next();
