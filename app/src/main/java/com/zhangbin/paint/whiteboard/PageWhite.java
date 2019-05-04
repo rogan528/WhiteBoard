@@ -349,18 +349,6 @@ public final class PageWhite {
         this.bFabricView.setLayoutParams(drawFabricViewLayout);
         this.bFabricView.setScaleRatio(this.scaleRatio);
         this.aFabricView.setScaleRatio(this.scaleRatio);
-
-//        this.bFabricView.setScaleRatio( outWidth / 934f);
-//        this.aFabricView.setScaleRatio(outWidth / 934f);
-//        this.bFabricView.setScaleRatio(this.scaleRatio * outWidth / 934f);
-//        this.aFabricView.setScaleRatio(this.scaleRatio * outWidth / 934f);
-//        if (this.t) {
-//            this.bFabricView.setScrollY((int) (this.o * this.scaleRatio));
-//            this.aFabricView.setScrollY((int) (this.o * this.scaleRatio));
-//            this.whitedrawView.setScrollY(0);
-//            Log.i("宽度高度2", "比率：" + this.scaleRatio + "比率2：" + this.o);
-//            return;
-//        }
         if (this.bFabricView.getScrollY() != 0) {
             this.bFabricView.setScrollY(0);
         }

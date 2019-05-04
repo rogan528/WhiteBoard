@@ -135,7 +135,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         Display defaultDisplay = getWindowManager().getDefaultDisplay();
         screenWidth = defaultDisplay.getWidth();
         screenHeight = defaultDisplay.getHeight();
-        // realHeight = (int) (screenHeight - getResources().getDimension(R.dimen.DIMEN_100PX) - getResources().getDimension(R.dimen.DIMEN_100PX));
         realHeight = screenHeight;
         tuyaView = new GraffitiView(this, screenWidth, realHeight);
         mWebView.addView(tuyaView);
@@ -144,14 +143,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
         orderDrawManger = new OrderDrawManger(whiteboardPresenter);
         updateLayout();
-        /*tuyaView.setPaintSize(paintSizeValue);
-        tuyaView.setReaserSize("1",eRaserSizeValue);
-        tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
-        updateLayout();
         mOpen.setOnClickListener(this);
         initSetting();
-
-
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
