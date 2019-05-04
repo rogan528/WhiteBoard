@@ -136,7 +136,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView.requestFocus();
 
         whiteboardPresenter = new WhiteboardPresenter(mContext,pptLayout);
+        String input = Util.readFileFromAssets(this, "LiveClient.json");
+        Gson gson = new Gson();
         orderDrawManger = new OrderDrawManger(whiteboardPresenter);
+        listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
+        }.getType());
+        orderDrawManger.setListorderBean(listOrderBean);
         updateLayout();
         mOpen.setOnClickListener(this);
         initSetting();
@@ -159,7 +164,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         Log.i("ppt宽高1", "宽：" + width + "  高：" + height);
         Boolean isPortrait = height > width;
         if (!ActivityUtil.isFullScreen(this) && isPortrait) {
-//            height -= DimensionUtils.getStatusBarHeight(this);
         }
         screenHeight = height;
         //获取宽高

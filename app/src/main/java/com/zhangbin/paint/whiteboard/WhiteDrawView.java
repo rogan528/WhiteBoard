@@ -176,45 +176,10 @@ public final class WhiteDrawView extends FrameLayout {
         return true;
     }
 
-   /* public final boolean onTouchEvent(MotionEvent paramMotionEvent) {
+    public final boolean onTouchEvent(MotionEvent paramMotionEvent) {
         return false;
-    }*/
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Log.e("---------zhangbin----","startx:");
-               /* //记录最初始的点，画圆矩形箭头会用到
-                startX = event.getX();
-                startY = event.getY();
-                Log.e("zhangbin----","startx:"+startX+"y:"+startY);
-                // 每次down下去重新new一个Path
-                mPath = new Path();
-                //每一次记录的路径对象是不一样的
-                dp = new GraffitiView.DrawPath();
-                dp.path = mPath;
-                dp.paint = mPaint;
-                touch_start(x, y);*/
-                invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                /*touch_move(x, y);
-                Log.e("zhangbin----","x:"+x+"y:"+y);
-                invalidate();*/
-                break;
-            case MotionEvent.ACTION_UP:
-               /* touch_up();
-                if(isEmpty){
-                    savePath.clear();
-                }
-                invalidate();*/
-                break;
-        }
-        return true;
     }
+
 
     protected final void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
