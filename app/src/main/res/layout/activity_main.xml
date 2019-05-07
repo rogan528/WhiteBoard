@@ -25,7 +25,8 @@
         android:text="解析"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"/>
+        android:layout_gravity="left"
+        android:visibility="gone"/>
     <Button
         android:id="@+id/open"
         android:text="关闭"
