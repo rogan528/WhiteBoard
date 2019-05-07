@@ -19,7 +19,8 @@
         android:layout_gravity="left"
         android:text="基础作业! \n 三年级!"
         android:gravity="center"
-        android:layout_marginLeft="180dp"/>
+        android:layout_marginLeft="180dp"
+        android:visibility="gone"/>
     <Button
         android:id="@+id/jx_next"
         android:text="解析"
