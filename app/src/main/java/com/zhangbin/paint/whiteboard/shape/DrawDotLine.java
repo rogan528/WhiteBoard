@@ -9,8 +9,7 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画带点线
  */
-public final class DrawDotLine
-        extends DrawLine {
+public final class DrawDotLine extends DrawLine {
     public DrawDotLine() {
         setDrawType(6);
     }

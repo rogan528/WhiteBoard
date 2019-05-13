@@ -10,8 +10,7 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 笔刷
  */
-public class DrawBrush
-        extends BaseShape {
+public class DrawBrush extends BaseShape {
     private Path path = new Path();
 
     public DrawBrush() {

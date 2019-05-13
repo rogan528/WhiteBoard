@@ -9,8 +9,7 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画圆
  */
-public final class DrawCircle
-        extends BaseShape {
+public final class DrawCircle extends BaseShape {
     private float left;
     private float top;
     private float right;

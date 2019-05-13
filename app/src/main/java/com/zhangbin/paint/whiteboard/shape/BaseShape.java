@@ -4,8 +4,7 @@ import android.graphics.Paint;
 
 import com.zhangbin.paint.beans.OrderBean;
 
-public abstract class BaseShape
-        extends BaseDraw {
+public abstract class BaseShape extends BaseDraw {
 
 
     public BaseShape() {

@@ -9,8 +9,7 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画直线
  */
-public class DrawLine
-        extends BaseShape {
+public class DrawLine extends BaseShape {
     private Path path = new Path();
 
     private float x1;
