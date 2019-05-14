@@ -31,12 +31,13 @@ public final class DrawMove
             throw new IllegalArgumentException();
         }
         //没有id 给个时间戳
-        if (orderBean.uuid == null || orderBean.uuid.equals("")) {
-            orderBean.uuid = (System.currentTimeMillis() + "");
+        if (orderBean.getUuid() == null || orderBean.getUuid().equals("")) {
+            orderBean.setUuid(System.currentTimeMillis() + "");
         }
-        this.x = orderBean.x;
-        this.y = orderBean.y;
-        this.setId(orderBean.uuid);
+        this.width=orderBean.getW();
+        this.x = orderBean.getX();
+        this.y = orderBean.getY();
+        this.setId(orderBean.getUuid());
 
 
     }

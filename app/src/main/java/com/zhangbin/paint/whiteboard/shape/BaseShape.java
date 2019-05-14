@@ -4,7 +4,8 @@ import android.graphics.Paint;
 
 import com.zhangbin.paint.beans.OrderBean;
 
-public abstract class BaseShape extends BaseDraw {
+public abstract class BaseShape
+        extends BaseDraw {
 
 
     public BaseShape() {
@@ -33,13 +34,13 @@ public abstract class BaseShape extends BaseDraw {
             throw new IllegalArgumentException();
         }
         //没有id 给个时间戳
-        if (orderBean.uuid == null || orderBean.uuid.equals("")) {
-            orderBean.uuid = (java.util.UUID.randomUUID().toString());
+        if (orderBean.getUuid() == null || orderBean.getUuid().equals("")) {
+            orderBean.setUuid(java.util.UUID.randomUUID().toString());
         }
 
 
-        this.setId(orderBean.uuid);
-        this.dataList = orderBean.data;
+        this.setId(orderBean.getUuid());
+        this.dataList = orderBean.getData();
 
     }
 }

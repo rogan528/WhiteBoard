@@ -1,7 +1,4 @@
 package com.zhangbin.paint.whiteboard;
-
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,17 +22,16 @@ public final class PageWhite {
      */
     private WhiteDrawView whitedrawView;
 
-//    private ImageView imageView;
-
     /**
      * 两个
      */
     private DrawLayerView bFabricView;
     private DrawLayerView aFabricView;
     private HistoryOrder historyOrder;
+    //撤销绘制集合
     private List<Integer> undoDrawableList;
+    //回退绘制集合
     private List<Integer> redoDrawableList;
-    //private OrderHistoryStack historyOrder;
     private float scaleRatio = 1.0F;
     int imageWidth = 0;
     int imageHeight = 0;
@@ -70,16 +66,10 @@ public final class PageWhite {
     }
 
     public final void drawObjA(final float x) {
-
-//        this.o = height;
-//        final int y2 = (int) (this.o * this.scaleRatio);
         final int y2 = (int) (this.scaleRatio);
         if (this.whitedrawView.getScaleY() == y2) {
             return;
         }
-
-//        this.whitedrawView.post(new RunnableScroll(this, x, y2));
-
         this.whitedrawView.post(new Runnable() {
             @Override
             public void run() {
@@ -174,6 +164,7 @@ public final class PageWhite {
                         BaseDraw b;
                         b = (BaseDraw) localBaseDraw.clone();
                         b.moveTo(drawMove.getX(), drawMove.getY());
+                        b.setWidth(drawMove.getWidth());
                         return b;
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
@@ -188,13 +179,17 @@ public final class PageWhite {
         return null;
     }
 
-    public final void drawObjA(int pageIndex) {
+    /**
+     * 清除指定页涂鸦
+     * @param pageIndex
+     */
+    public final void clearPageIndex(int pageIndex) {
         if (this.historyOrder != null) {
             this.historyOrder.clear(pageIndex);
         }
         if (this.page == pageIndex) {
-            this.aFabricView.DrawLayerView();
-            this.bFabricView.DrawLayerView();
+            this.aFabricView.clear();
+            this.bFabricView.clear();
         }
     }
 
@@ -223,8 +218,6 @@ public final class PageWhite {
      * @param pageIndex
      */
     public final void ToPage(int pageIndex) {
-
-
         boolean b = (this.page != pageIndex) || (!this.isClient);
         this.page = pageIndex;
         if (!this.isClient) {
@@ -253,17 +246,6 @@ public final class PageWhite {
         this.imageHeight = height;
     }
 
-
-    //是否可以调图片
-    public boolean isImageload(Context context) {
-        if (context == null) {
-            return false;
-        } else {
-            Activity activity;
-            return !(context instanceof Activity) || !(activity = (Activity) context).isDestroyed() && !activity.isFinishing();
-        }
-    }
-
     public final void drawObjA(CopyOnWriteArrayList<BaseDraw> drawLayerViews) {
         this.aFabricView.setFabricViewDataList(drawLayerViews);
     }
@@ -283,11 +265,6 @@ public final class PageWhite {
             return;
         }
 
-        /**暂无使用 **/
-//        FrameLayout.LayoutParams imageViewlayout;
-//        imageViewlayout = (FrameLayout.LayoutParams) this.imageView.getLayoutParams();
-//        imageViewlayout.gravity = Gravity.CENTER;
-
 
         FrameLayout.LayoutParams drawFabricViewLayout;
         drawFabricViewLayout = (FrameLayout.LayoutParams) this.bFabricView.getLayoutParams();
@@ -301,19 +278,16 @@ public final class PageWhite {
         //是草稿纸
         if (this.isScratch) {
             this.scaleRatio = (tWidth / 800.0F);
-//            imageViewlayout.gravity = 49;
             drawFabricViewLayout.gravity = 49;
         } else if (width < height) {
             tWidth = 0.025F * this.layoutWidth;
             tWidth = this.mWidth - tWidth;
             this.scaleRatio = (tWidth / width);
             tHeight = this.scaleRatio * height;
-//            imageViewlayout.gravity = 49;
             drawFabricViewLayout.gravity = 49;
 
 
         } else {
-
             if (this.mWidth < this.layoutWidth) {
                 tWidth = (float) this.mWidth / (float) width * (float) height;
 
@@ -326,20 +300,12 @@ public final class PageWhite {
                     tHeight *= localRatio;
                     tWidth = this.layoutWidth;
                 }
-
-
             }
 
             this.scaleRatio = (tWidth / width);
-//            if (this.o != 0.0F) {
-//                this.t = true;
-//            }
         }
         int outWidth = Math.round(tWidth);
         height = Math.round(tHeight);
-//        imageViewlayout.width = outWidth;
-//        imageViewlayout.height = height;
-//        this.imageView.setLayoutParams(layoutParams);
 
 
         drawFabricViewLayout.width = outWidth;
@@ -360,8 +326,8 @@ public final class PageWhite {
 
 
     public final void drawObjB() {
-        this.aFabricView.DrawLayerView();
-        this.bFabricView.DrawLayerView();
+        this.aFabricView.clear();
+        this.bFabricView.clear();
     }
 
     public final void clear() {
@@ -371,6 +337,9 @@ public final class PageWhite {
         drawObjB();
     }
 
+    /**
+     * 清除所有
+     */
     public final void clearAll() {
         drawObjB();
         this.historyOrder.clearAll();
@@ -379,13 +348,14 @@ public final class PageWhite {
 
     }
 
+    /**
+     * 撤销
+     */
     public void undo() {
         int size = undoDrawableList.size();
         if (size == 0) {
             return;
         }
-
-
         redoDrawableList.add(undoDrawableList.get(size - 1));
         undoDrawableList.remove(size - 1);
         int type = redoDrawableList.get(redoDrawableList.size() - 1);
@@ -394,10 +364,11 @@ public final class PageWhite {
         } else {
             bFabricView.undo();
         }
-
-
     }
 
+    /**
+     * 回退操作
+     */
     public void redo() {
         int size = redoDrawableList.size();
         if (size == 0) {

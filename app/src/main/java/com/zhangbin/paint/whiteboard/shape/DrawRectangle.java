@@ -55,11 +55,11 @@ public final class DrawRectangle
 
     public final void explainOrder(OrderBean orderBean) {
         super.explainOrder(orderBean);
-        this.left = orderBean.x1;
-        this.top = orderBean.y1;
-        this.right = orderBean.x2;
-        this.bottom = orderBean.y2;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
+        this.left = orderBean.getX1();
+        this.top = orderBean.getY1();
+        this.right = orderBean.getX2();
+        this.bottom = orderBean.getY2();
+        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
 

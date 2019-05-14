@@ -12,6 +12,10 @@ import android.os.Message;
 import android.view.inputmethod.InputMethodManager;
 
 import java.lang.ref.WeakReference;
+
+/**
+ * Created by Wallace on 2016/12/28.
+ */
 public class ScreenSwitchUtils {
 
     private static final String TAG = ScreenSwitchUtils.class.getSimpleName();

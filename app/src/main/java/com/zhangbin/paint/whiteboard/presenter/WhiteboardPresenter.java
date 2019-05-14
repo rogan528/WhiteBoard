@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.zhangbin.paint.R;
 import com.zhangbin.paint.beans.OrderBean;
@@ -27,17 +29,18 @@ public class WhiteboardPresenter {
     private PageCommandCallback f;
     private ViewGroup viewGroup;
     private int indexPage;
-    private int backPage = 1;
     private float backpenSize = 2;
     private int backPenColor = Color.RED;
     private float backEraserSize = 5;
     private float backTextSize = 50;
     private int backTextColor = Color.RED;
-    private int addDraftPage = 100000;
 
     public WhiteboardPresenter(Context context, ViewGroup viewGroup) {
         this.viewGroup = viewGroup;
         this.context = context;
+        /*float scale = context.getResources().getDisplayMetrics().density;
+        float ratio = (scale / 160) * 72;
+        OperationUtils.getInstance().mCurrentTextSizeRatio = ratio;*/
         this.init();
 
     }
@@ -78,11 +81,14 @@ public class WhiteboardPresenter {
         }
     }
 
+    /**
+     * 设置PPT的背景色
+     * @param backgroundColor
+     */
     public void setWhiteboardBackgroundColor(final int backgroundColor) {
         if (this.whiteDrawView == null) {
             return;
         }
-        Log.i("video", "设置桌面颜色color:" + backgroundColor);
         this.whiteDrawView.setBackgroundColor(backgroundColor);
     }
 
@@ -94,11 +100,9 @@ public class WhiteboardPresenter {
 
     /**
      * 305指令  画笔大小
-     *
      * @param penSize
      */
     public void setPaintSize(float penSize) {
-        //this.whiteDrawView.setStrokeWidth(strokeWidth);
         OperationUtils.getInstance().mCurrentPenSize = penSize;
     }
 
@@ -108,7 +112,6 @@ public class WhiteboardPresenter {
      * @param paintColor
      */
     public void setPaintColor(int paintColor) {
-        //this.whiteDrawView.setPaintColor(paintColor);
         OperationUtils.getInstance().mCurrentPenColor = paintColor;
     }
 
@@ -158,13 +161,14 @@ public class WhiteboardPresenter {
     /**
      * 410 打开草稿纸
      */
-    public void openDraftPaper() {
-        backPage = this.indexPage;
+    public void openDraftPaper(int addDraftPage) {
+        OperationUtils.getInstance().mBackPage = this.indexPage;
         backpenSize = OperationUtils.getInstance().mCurrentPenSize;
         backPenColor = OperationUtils.getInstance().mCurrentPenColor;
         backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
         backTextSize = OperationUtils.getInstance().mCurrentTextSize;
         backTextColor = OperationUtils.getInstance().mCurrentTextColor;
+        setWhiteboardBackgroundColor(Color.WHITE);
         this.whiteDrawView.openDraftPaper(addDraftPage);
         this.indexPage = addDraftPage;
     }
@@ -178,18 +182,31 @@ public class WhiteboardPresenter {
         OperationUtils.getInstance().mCurrentEraserSize = backEraserSize;
         OperationUtils.getInstance().mCurrentTextSize = backTextSize;
         OperationUtils.getInstance().mCurrentTextColor = backTextColor;
-        this.whiteDrawView.closeDraftPaper(backPage);
-        this.indexPage = backPage;
+        this.whiteDrawView.closeDraftPaper(OperationUtils.getInstance().mBackPage);
+        this.indexPage = OperationUtils.getInstance().mBackPage;
 
     }
-
+    /**
+     * 412 草稿纸换页
+     */
+    public void changeDraftPaper(int changeDraftPage) {
+        backpenSize = OperationUtils.getInstance().mCurrentPenSize;
+        backPenColor = OperationUtils.getInstance().mCurrentPenColor;
+        backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
+        backTextSize = OperationUtils.getInstance().mCurrentTextSize;
+        backTextColor = OperationUtils.getInstance().mCurrentTextColor;
+        setWhiteboardBackgroundColor(OperationUtils.getInstance().mWhiteboardBackgroundColor);
+        this.whiteDrawView.changeDraftPaper(changeDraftPage);
+    }
     /**
      * 413 草稿纸背景切换
      */
     public void setBackgroundColor(String value) {
         if (value.equals("1")) {  //白色
+            OperationUtils.getInstance().mWhiteboardBackgroundColor = Color.WHITE;
             setWhiteboardBackgroundColor(context.getResources().getColor(R.color.white));
         } else {//黑色
+            OperationUtils.getInstance().mWhiteboardBackgroundColor = Color.BLACK;
             setWhiteboardBackgroundColor(context.getResources().getColor(R.color.black));
         }
     }
@@ -197,16 +214,15 @@ public class WhiteboardPresenter {
     /**
      * 414 增加草稿纸
      */
-    public void addDraftPaper() {
-        backPage = this.indexPage;
+    public void addDraftPaper(int addDraftPage) {
         backpenSize = OperationUtils.getInstance().mCurrentPenSize;
         backPenColor = OperationUtils.getInstance().mCurrentPenColor;
         backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
         backTextSize = OperationUtils.getInstance().mCurrentTextSize;
         backTextColor = OperationUtils.getInstance().mCurrentTextColor;
-        setWhiteboardBackgroundColor(context.getResources().getColor(R.color.white));
-        addDraftPage = addDraftPage+1;
-        this.indexPage = addDraftPage;
+        setWhiteboardBackgroundColor(OperationUtils.getInstance().mWhiteboardBackgroundColor);
+        OperationUtils.getInstance().mEndDraftPage = addDraftPage+1;
+        this.indexPage = OperationUtils.getInstance().mEndDraftPage;
         this.whiteDrawView.addDraftPaper(this.indexPage);
     }
 
@@ -265,47 +281,25 @@ public class WhiteboardPresenter {
         this.indexPage = currentPage;
     }
 
-//    public void preloadPage(final String s) {
-//        if (TextUtils.isEmpty((CharSequence) s) || this.whiteDrawView == null) {
-//            return;
-//        }
-//        Log.d("video", "\u9884\u52a0\u8f7d:" + s);
-//        this.whiteDrawView.init(s);
-//    }
 
-
+    /**
+     * 清除指定页涂鸦
+     * @param pageIndex
+     */
     public void clearPageDraw(int pageIndex) {
         if (this.whiteDrawView == null) {
             return;
         }
-//        pageIndex = this.indexPage;
-        Log.d("video", String.format("清除指定页涂鸦", pageIndex));
-        this.whiteDrawView.init(pageIndex);
+        this.whiteDrawView.clearPageIndex(pageIndex);
     }
-
-
+    /**
+     * 清除所有
+     */
     public void clearAllDraw() {
         if (this.whiteDrawView == null) {
             return;
         }
-        Log.d("video", "擦除全部涂鸦");
         this.whiteDrawView.init();
-    }
-
-
-    public void clearPage() {
-        if (this.whiteDrawView == null) {
-            return;
-        }
-        Log.d("video", "清除页面");
-        this.whiteDrawView.drawObj();
-    }
-
-    public void clearAll() {
-
-        if (this.whiteDrawView != null) {
-            this.whiteDrawView.clearAll();
-        }
     }
 
     public void setPageCommandCallback(final PageCommandCallback f) {

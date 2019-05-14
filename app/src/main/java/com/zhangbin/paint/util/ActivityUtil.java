@@ -7,6 +7,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+/**
+ * Created by asus on 2017/9/7.
+ */
+
 public class ActivityUtil {
     /**
      * @param activity

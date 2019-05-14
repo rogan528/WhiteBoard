@@ -2,29 +2,176 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
     <FrameLayout
         android:id="@+id/pptLayout"
         android:layout_width="100dp"
         android:layout_height="100dp">
     </FrameLayout>
-
-    <com.zhangbin.paint.DragTextView
-        android:id="@+id/textView"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:longClickable="false"
-        android:layout_gravity="left"
-        android:text="基础作业! \n 三年级!"
+    <LinearLayout
+        android:id="@+id/ll_trywatch"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_above="@+id/operation_btn_container"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/shape_gray_30"
         android:gravity="center"
-        android:layout_marginLeft="180dp"/>
-    <Button
-        android:id="@+id/jx_next"
-        android:text="解析本地Json"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:visibility="visible"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_zz_try_see_head" />
+        <TextView
+            android:id="@+id/tv_trywatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="可试看90s  开通周周会员免费看"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_InputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="280dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入内容"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_send_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="发送"/>
+        <Button
+            android:id="@+id/btn_forbid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="禁言"
+            android:layout_weight="1"
+            android:visibility="visible"/>
+        </LinearLayout>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_height="280dp"/>
+    <com.zhangbin.paint.video.view.DragFrameLayout
+        android:id="@+id/dragframeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|right"
+        android:visibility="visible">
+        <tv.danmaku.ijk.media.example.widget.media.IjkDragVideoView
+            android:id="@+id/ijk_videoView"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            android:background="@color/colorAccent"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="166dp"
+            android:clickable="false"
+            android:longClickable="false"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/iv_videoView"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            android:layout_gravity="right|bottom"
+            android:background="@drawable/bg"
+            android:layout_marginBottom="166dp"
+            android:visibility="visible"/>
+    </com.zhangbin.paint.video.view.DragFrameLayout>
+    <TextView
+        android:id="@+id/sample_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:lineSpacingExtra="4dp"
+        android:textStyle="bold"
+        android:text="连接互联服务ing"/>
+    <LinearLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        >
+        <Button
+            android:id="@+id/iv_go_back"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:visibility="visible"/>
+        <Button
+            android:id="@+id/jx_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="解析" />
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="撤销" />
+        <Button
+            android:id="@+id/redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="恢复" />
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="清空" />
+        <Button
+            android:id="@+id/is_visiable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:text="不可见" />
+        <Button
+            android:id="@+id/is_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全屏" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"/>
+        android:layout_marginTop="200dp"
+        android:layout_gravity="top"
+        android:text="显示"
+        android:visibility="visible"/>
+    <Button
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:text="暂停"
+        android:visibility="gone"/>
 </FrameLayout>

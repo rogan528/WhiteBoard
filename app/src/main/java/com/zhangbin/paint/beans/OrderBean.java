@@ -14,43 +14,47 @@ public class OrderBean {
      * w : 640
      * h : 480
      */
+
     @SerializedName("si")
-    public int si;
+    private int si;
     @SerializedName("t")
-    public String type;
+    private String type;
     @SerializedName("s")
-    public long startTime;
+    private long startTime;
     @SerializedName("w")
-    public float w;
+    private float w;
     @SerializedName("h")
-    public float h;
+    private float h;
     /**
      * v : 6
      */
+
     @SerializedName("v")
-    public String value;
+    private String value;
     /**
      * cp : 3
      * ca : 5
      */
+
     @SerializedName("cp")
-    public int currentPage;
+    private int currentPage;
     @SerializedName("ca")
-    public int currentAnimation;
+    private int currentAnimation;
     /**
      * e : 223434349
      * th : 30
      * pc : ffffff
      * d : [{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":364,"y":110},{"x":361,"y":110}]
      */
+
     @SerializedName("e")
-    public long endTime;
+    private long endTime;
     @SerializedName("th")
-    public int strokeWidth;
+    private int strokeWidth;
     @SerializedName("pc")
-    public String penColor;
+    private String penColor;
     @SerializedName("d")
-    public List<DataBean> data;
+    private List<DataBean> data;
     /**
      * e : 223434349
      * x : 5.1
@@ -60,28 +64,31 @@ public class OrderBean {
      * u : 2012
      * tx : 文本输入
      */
+
     @SerializedName("x")
-    public float x;
+    private float x;
     @SerializedName("y")
-    public float y;
+    private float y;
     @SerializedName("u")
-    public String uuid;
+    private String uuid;
     @SerializedName("tx")
-    public String text;
+    private String text;
     /**
      * x1 : 100.0
      * y1 : 100.0
      * x2 : 100.0
      * y2 : 100.0
      */
+
     @SerializedName("x1")
-    public float x1;
+    private float x1;
     @SerializedName("y1")
-    public float y1;
+    private float y1;
     @SerializedName("x2")
-    public float x2;
+    private float x2;
     @SerializedName("y2")
-    public float y2;
+    private float y2;
+
     /**
      * e : 223434349
      * d : [{"x":364,"y":110},{"x":361,"y":110}]
@@ -90,18 +97,202 @@ public class OrderBean {
 
         return new Gson().fromJson(str, OrderBean.class);
     }
+
+    public int getSi() {
+        return si;
+    }
+
+    public void setSi(int si) {
+        this.si = si;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public float getW() {
+        return w;
+    }
+
+    public void setW(float w) {
+        this.w = w;
+    }
+
+    public float getH() {
+        return h;
+    }
+
+    public void setH(float h) {
+        this.h = h;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getCurrentAnimation() {
+        return currentAnimation;
+    }
+
+    public void setCurrentAnimation(int currentAnimation) {
+        this.currentAnimation = currentAnimation;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public String getPenColor() {
+        return penColor;
+    }
+
+    public void setPenColor(String penColor) {
+        this.penColor = penColor;
+    }
+
+
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public float getX1() {
+        return x1;
+    }
+
+    public void setX1(float x1) {
+        this.x1 = x1;
+    }
+
+    public float getY1() {
+        return y1;
+    }
+
+    public void setY1(float y1) {
+        this.y1 = y1;
+    }
+
+    public float getX2() {
+        return x2;
+    }
+
+    public void setX2(float x2) {
+        this.x2 = x2;
+    }
+
+    public float getY2() {
+        return y2;
+    }
+
+    public void setY2(float y2) {
+        this.y2 = y2;
+    }
+
     public static class DataBean {
         /**
          * x : 364
          * y : 110
          */
+
         @SerializedName("x")
-        public float x;
+        private float x;
         @SerializedName("y")
-        public float y;
+        private float y;
+
         public static DataBean objectFromData(String str) {
 
             return new Gson().fromJson(str, DataBean.class);
+        }
+
+        public float getX() {
+            return x;
+        }
+
+        public void setX(float x) {
+            this.x = x;
+        }
+
+        public float getY() {
+            return y;
+        }
+
+        public void setY(float y) {
+            this.y = y;
         }
     }
 

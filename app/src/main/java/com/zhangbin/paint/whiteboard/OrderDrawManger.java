@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.zhangbin.paint.beans.OrderBean;
+import com.zhangbin.paint.util.OperationUtils;
 import com.zhangbin.paint.util.Util;
 import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
@@ -68,11 +69,9 @@ public class OrderDrawManger {
         if (orderBean == null) {
             return;
         }
-        Log.e("orderorder","toString--"+orderBean.toString());
-        if (!orderBean.type.equals("")) {
-            int type = Util.toInteger(orderBean.type);
-            Log.i("itemorderorder", "--type--"+type);
-            List<OrderBean.DataBean> lst = this.orderBean.data;
+        if (!orderBean.getType().equals("")) {
+            int type = Util.toInteger(orderBean.getType());
+            List<OrderBean.DataBean> lst = this.orderBean.getData();
             switch (type) {
                 case 300:
                     break;
@@ -85,22 +84,27 @@ public class OrderDrawManger {
                 case 304:
                     break;
                 case 305:
-                    whiteboardPresenter.setPaintSize(Float.parseFloat(this.orderBean.value));
+                    //设置画笔大小
+                    whiteboardPresenter.setPaintSize(Float.parseFloat(this.orderBean.getValue()));
                     break;
                 case 306:
-                    whiteboardPresenter.setPaintColor(Color.parseColor(this.orderBean.value));
+                    //设置画笔颜色
+                    whiteboardPresenter.setPaintColor(Color.parseColor(this.orderBean.getValue()));
                     break;
                 case 307:
-                    whiteboardPresenter.setReaserSize(Float.parseFloat(this.orderBean.value));
+                    //设置橡皮大小
+                    whiteboardPresenter.setReaserSize(Float.parseFloat(this.orderBean.getValue()));
                     break;
                 case 308:
                     //文字大小
-                    whiteboardPresenter.setTextSize(Integer.parseInt(this.orderBean.value));
+                    whiteboardPresenter.setTextSize(Integer.parseInt(this.orderBean.getValue()));
                     break;
                 case 309:
                     //文字颜色
-                    whiteboardPresenter.setTextColor(Color.parseColor(this.orderBean.value));
+                    whiteboardPresenter.setTextColor(Color.parseColor(this.orderBean.getValue()));
                     break;
+                //400画笔401橡皮402创建文字403编辑文字404移动文字
+                // 405画线406画虚线407画矩形408画圆409图形移动
                 case 400:
                 case 401:
                 case 402:
@@ -114,43 +118,50 @@ public class OrderDrawManger {
                     whiteboardPresenter.addDrawData(orderBean);
                     break;
                 case 410:
-                    whiteboardPresenter.openDraftPaper();
+                    //打开草稿纸
+                    whiteboardPresenter.openDraftPaper(OperationUtils.getInstance().mEndDraftPage);
                     break;
                 case 411:
+                    //关闭草稿纸
                     whiteboardPresenter.closeDraftPaper();
                     break;
                 case 412:
+                    //翻页草稿纸
+                    whiteboardPresenter.changeDraftPaper(Integer.parseInt(this.orderBean.getValue())+OperationUtils.getInstance().mStartDraftPage);
                     break;
                 case 413:
-                    whiteboardPresenter.setBackgroundColor(this.orderBean.value);
+                    //设置背景色
+                    whiteboardPresenter.setBackgroundColor(this.orderBean.getValue());
                     break;
                 case 414:
-                    whiteboardPresenter.addDraftPaper();
+                    //新建草稿纸
+                    whiteboardPresenter.addDraftPaper(OperationUtils.getInstance().mEndDraftPage);
                     break;
                 case 500:
+                    //清空
                     whiteboardPresenter.orderClear();
                     break;
                 case 501:
+                    //撤销
                     whiteboardPresenter.undo();
                     break;
                 case 502:
+                    //回退
                     whiteboardPresenter.redo();
                     break;
                 case 503:
                     //跳转指定页
-                    whiteboardPresenter.jumpPage(this.orderBean.currentPage, this.orderBean.currentAnimation);
+                    whiteboardPresenter.jumpPage(this.orderBean.getCurrentPage(), this.orderBean.getCurrentAnimation());
                     break;
                 case 504:
                     //上一页
-                    whiteboardPresenter.lastSlideS(this.orderBean.currentPage, this.orderBean.currentAnimation);
+                    whiteboardPresenter.lastSlideS(this.orderBean.getCurrentPage(), this.orderBean.getCurrentAnimation());
                     break;
                 case 505:
                     //下一页
-                    whiteboardPresenter.nextSlideS(this.orderBean.currentPage, this.orderBean.currentAnimation);
+                    whiteboardPresenter.nextSlideS(this.orderBean.getCurrentPage(), this.orderBean.getCurrentAnimation());
                     break;
             }
-
-
         }
     }
 

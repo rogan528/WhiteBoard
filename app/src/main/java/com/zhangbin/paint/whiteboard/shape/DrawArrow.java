@@ -8,7 +8,8 @@ import com.zhangbin.paint.beans.OrderBean;
 /**
  * 画线头
  */
-public final class DrawArrow extends BaseShape {
+public final class DrawArrow
+        extends BaseShape {
     private float j;
     private float k;
     private float l;

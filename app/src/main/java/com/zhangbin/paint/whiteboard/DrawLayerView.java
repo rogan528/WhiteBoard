@@ -89,27 +89,6 @@ public class DrawLayerView
         }
     }
 
-
-    /**
-     * 每个绘图都进行绘画
-     *
-     * @param context
-     * @param text
-     * @param x
-     * @param y
-     * @return
-     */
-    public final BaseDraw DrawLayerView(Context context, String text, int x, int y) {
-        DrawText drawText;
-        (drawText = new DrawText(context, text, x, y, this.paint)).size(this.textSize);
-        drawText.setId("1");
-        drawText.setDrawType(5);
-        this.fabricViewDataList.add(drawText);
-        this.undoDrawableList.add(drawText);
-        this.invalidate();
-        return drawText;
-    }
-
     public final int getColor() {
         return this.color;
     }
@@ -292,7 +271,10 @@ public class DrawLayerView
         invalidate();// 刷新
     }
 
-    public final void DrawLayerView() {
+    /**
+     * 清除刷新
+     */
+    public final void clear() {
         this.undoDrawableList.clear();
         this.fabricViewDataList.clear();
         this.redoDrawableList.clear();

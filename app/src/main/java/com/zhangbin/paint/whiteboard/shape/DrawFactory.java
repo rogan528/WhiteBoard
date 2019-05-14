@@ -15,7 +15,7 @@ public class DrawFactory {
             return null;
         }
 
-        int type = Util.toInteger(order.type);
+        int type = Util.toInteger(order.getType());
         Object var3;
         switch (type) {
             case 400:
@@ -23,6 +23,16 @@ public class DrawFactory {
                 break;
             case 401:
                 var3 = new DrawEraser();
+                break;
+            case 402:
+                var3 = new DrawText();
+                break;
+            case 403:
+                var3 = new DrawText();
+                break;
+            //移动
+            case 404:
+                var3 = new DrawMove();
                 break;
             case 405:
                 var3 = new DrawLine();
@@ -36,23 +46,9 @@ public class DrawFactory {
             case 408:
                 var3 = new DrawCircle();
                 break;
-//            case 19:
-//                var3 = new DrawArrow();
-//                break;
-            case 402:
-                var3 = new DrawText();
-                break;
-            case 403:
-                var3 = new DrawText();
-                break;
-            //移动
-            case 404:
-                var3 = new DrawMove();
-                break;
             case 409:
                 var3 = new DrawMove();
                 break;
-
             default:
                 var3 = null;
         }

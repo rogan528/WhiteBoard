@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/input_layout_bg"
+    android:gravity="center_vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="8dp">
+
+    <include
+        android:id="@+id/btn_send"
+        layout="@layout/flower_btn_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edt_icon_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"/>
+
+    <ImageView
+        android:id="@+id/iv_expression"
+        android:layout_width="@dimen/edt_icon_size"
+        android:layout_height="@dimen/edt_icon_size"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/btn_send"
+        android:src="@drawable/expression_icon" />
+
+    <EditText
+        android:id="@+id/input_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/iv_expression"
+        android:layout_toStartOf="@id/iv_expression"
+        android:background="@drawable/input_layout_bg"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:hint="@string/input_edt_hint"
+        android:maxLines="3"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="#93a9d1"
+        android:textSize="16sp" />
+
+</RelativeLayout>

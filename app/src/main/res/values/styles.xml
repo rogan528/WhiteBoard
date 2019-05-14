@@ -7,5 +7,23 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!--欢拓样式-->
+    <style name="menu_image_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/menu_icon_top_padding</item>
+        <item name="android:paddingTop">@dimen/menu_icon_top_padding</item>
+        <item name="android:paddingRight">@dimen/menu_icon_left_padding</item>
+        <item name="android:paddingLeft">@dimen/menu_icon_left_padding</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 
+    <style name="send_btn_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/send_btn_bg</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/question</item>
+    </style>
 </resources>

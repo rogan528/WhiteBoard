@@ -9,7 +9,8 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画圆
  */
-public final class DrawCircle extends BaseShape {
+public final class DrawCircle
+        extends BaseShape {
     private float left;
     private float top;
     private float right;
@@ -54,12 +55,12 @@ public final class DrawCircle extends BaseShape {
 
     public void explainOrder(OrderBean orderBean) {
         super.explainOrder(orderBean);
-        this.left = orderBean.x1;
-        this.top = orderBean.y1;
-        this.right = orderBean.x2;
-        this.bottom = orderBean.y2;
+        this.left = orderBean.getX1();
+        this.top = orderBean.getY1();
+        this.right = orderBean.getX2();
+        this.bottom = orderBean.getY2();
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
+        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
     }
 }

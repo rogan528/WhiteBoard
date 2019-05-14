@@ -9,7 +9,8 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画直线
  */
-public class DrawLine extends BaseShape {
+public class DrawLine
+        extends BaseShape {
     private Path path = new Path();
 
     private float x1;
@@ -54,12 +55,12 @@ public class DrawLine extends BaseShape {
 
     public void explainOrder(OrderBean orderBean) {
         super.explainOrder(orderBean);
-        this.x1 = orderBean.x1;
-        this.y1 = orderBean.y1;
-        this.x2 = orderBean.x2;
-        this.y2 = orderBean.y2;
+        this.x1 = orderBean.getX1();
+        this.y1 = orderBean.getY1();
+        this.x2 = orderBean.getX2();
+        this.y2 = orderBean.getY2();
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
+        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
     }
 }

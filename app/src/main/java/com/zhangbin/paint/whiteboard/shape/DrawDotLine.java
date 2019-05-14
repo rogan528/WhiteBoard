@@ -9,7 +9,8 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 画带点线
  */
-public final class DrawDotLine extends DrawLine {
+public final class DrawDotLine
+        extends DrawLine {
     public DrawDotLine() {
         setDrawType(6);
     }
@@ -40,9 +41,6 @@ public final class DrawDotLine extends DrawLine {
 
     public final void explainOrder(OrderBean orderBean) {
         super.explainOrder(orderBean);
-        this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
-        this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
     }
 }
 

@@ -8,12 +8,11 @@ package com.zhangbin.paint.whiteboard;
  */
 
 import android.content.Context;
-import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -23,7 +22,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.zhangbin.paint.GraffitiView;
+import com.zhangbin.paint.util.OperationUtils;
 import com.zhangbin.paint.whiteboard.DrawLayerView;
 import com.zhangbin.paint.whiteboard.PageWhite;
 import com.zhangbin.paint.whiteboard.PptWebView;
@@ -63,7 +62,7 @@ public final class WhiteDrawView extends FrameLayout {
         this.imageView = new ImageView(this.getContext());
         this.imageView.setAdjustViewBounds(true);
         this.editText.setPadding(0, 0, 0, 0);
-        LayoutParams layoutParams = new LayoutParams(-1, -1);
+        LayoutParams layoutParams = new FrameLayout.LayoutParams(-1, -1);
         initWebSetting();
         this.frameLayout.addView(this.webView, layoutParams);
         this.frameLayout.addView(this.imageView, layoutParams);
@@ -75,13 +74,11 @@ public final class WhiteDrawView extends FrameLayout {
     }
 
     private void initWebSetting() {
-        String url = "https://www.baidu.com";
+        String url = "http://192.168.8.37:8081/83461B08A0401FC68D9C2A7E036C4710/h5/h5.html?aaaa";
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebContentsDebuggingEnabled(true);
         webView.loadUrl(url);
-
     }
 
 
@@ -93,7 +90,13 @@ public final class WhiteDrawView extends FrameLayout {
     public final void init(boolean isClient) {
         this.pageWhite = new PageWhite(isClient, this);
         //要设置原始ppt 大小以便进行缩放控制
-        this.pageWhite.setWidthHeight(934, 508);
+        int mBoardWidth = OperationUtils.getInstance().mBoardWidth;
+        int mBoardHeight = OperationUtils.getInstance().mBoardHeight;
+        if (mBoardWidth <= 0){
+            mBoardWidth =884;
+            mBoardHeight =497;
+        }
+        this.pageWhite.setWidthHeight(mBoardWidth, mBoardHeight);
 //        }
 
     }
@@ -173,13 +176,15 @@ public final class WhiteDrawView extends FrameLayout {
     }
 
     public final boolean onInterceptTouchEvent(MotionEvent paramMotionEvent) {
+//        if (this.g == null) {
         return true;
+//        }
+//        return this.g.imageView(paramMotionEvent);
     }
 
     public final boolean onTouchEvent(MotionEvent paramMotionEvent) {
         return false;
     }
-
 
     protected final void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -208,12 +213,6 @@ public final class WhiteDrawView extends FrameLayout {
         }
     }
 
-    public final void init(String paramString) {
-        if ((!TextUtils.isEmpty(paramString)) && (getContext() != null) && (this.pageWhite != null)) {
-            getContext();
-        }
-    }
-
 
     public final void setPPTLoadFailDrawable(Drawable paramDrawable) {
         if (this.pageWhite != null) {
@@ -221,9 +220,13 @@ public final class WhiteDrawView extends FrameLayout {
         }
     }
 
-    public final void init(int pageIndex) {
+    /**
+     * 指定页数清除
+     * @param pageIndex
+     */
+    public final void clearPageIndex(int pageIndex) {
         if (this.pageWhite != null) {
-            this.pageWhite.drawObjA(pageIndex);
+            this.pageWhite.clearPageIndex(pageIndex);
         }
     }
 
@@ -267,10 +270,17 @@ public final class WhiteDrawView extends FrameLayout {
      * @param currentPage
      */
     public void closeDraftPaper(int currentPage) {
-        webView.setVisibility(VISIBLE);
         jumpPage(currentPage, 1);
     }
-
+    /**
+     * 412 草稿纸换页
+     *
+     * @param currentPage
+     */
+    public void changeDraftPaper(int currentPage) {
+        webView.setVisibility(INVISIBLE);
+        this.pageWhite.ToPage(currentPage);
+    }
     /**
      * 414 增加草稿纸
      *
@@ -281,35 +291,51 @@ public final class WhiteDrawView extends FrameLayout {
         this.pageWhite.addDraftPage(currentPage);
     }
 
+    /**
+     * 跳转指定页面
+     * @param currentPage
+     * @param currentAnimation
+     */
     public void jumpPage(int currentPage, int currentAnimation) {
-
-        webView.evaluateJavascript("javascript:JumpPage(" + currentPage + "," + currentAnimation + ",1)", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        String js = "javascript:JumpPage(" + currentPage + "," + currentAnimation + ",1)";
+        webViewLoad(js);
         this.pageWhite.ToPage(currentPage);
 
     }
 
+    /**
+     * 针对不同版本调用不同的API
+     * @param js
+     */
+    private void webViewLoad(String js) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.evaluateJavascript(js, null);
+        } else {
+            webView.loadUrl(js);
+        }
+        webView.setVisibility(VISIBLE);
+    }
+
+
+    /**
+     * 上一页
+     * @param currentPage
+     * @param currentAnimation
+     */
     public void lastSlideS(int currentPage, int currentAnimation) {
-        webView.evaluateJavascript("javascript:lastSlideS(" + currentPage + "," + currentAnimation + ")", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        String js = "javascript:LastSlideS(" + currentPage + "," + currentAnimation + ")";
+        webViewLoad(js);
         this.pageWhite.ToPage(currentPage);
     }
 
+    /**
+     * 下一页
+     * @param currentPage
+     * @param currentAnimation
+     */
     public void nextSlideS(int currentPage, int currentAnimation) {
-        webView.evaluateJavascript("javascript:nextSlideS(" + currentPage + "," + currentAnimation + ")", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        String js = "javascript:NextSlideS(" + currentPage + "," + currentAnimation + ")";
+        webViewLoad(js);
         this.pageWhite.ToPage(currentPage);
     }
 

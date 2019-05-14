@@ -3,5 +3,30 @@
     <dimen name="DIMEN_15PX">6.25dp</dimen>
     <dimen name="DIMEN_60PX">25dp</dimen>
     <dimen name="DIMEN_100PX">41.66667dp</dimen>
-
+    <!--欢拓样式-->
+    <dimen name="menu_icon_top_padding">6dp</dimen>
+    <dimen name="menu_icon_left_padding">4dp</dimen>
+    <dimen name="fullScreen_expression_size">28dp</dimen>
+    <dimen name="fullScreen_input_Height">35dp</dimen>
+    <dimen name="fullScreen_input_marginBottom">5dp</dimen>
+    <dimen name="fullScreen_input_marginTop">5dp</dimen>
+    <dimen name="fullScreen_input_marginRight">5dp</dimen>
+    <dimen name="fullScreen_input_marginLeft">5dp</dimen>
+    <dimen name="fullScreen_expressionView_height">50dp</dimen>
+    <dimen name="expression_size">40dp</dimen>
+    <dimen name="edt_input_height">45dp</dimen>
+    <dimen name="edt_icon_size">28dp</dimen>
+    <dimen name="edt_input_padding">4dp</dimen>
+    <dimen name="expression_layout_height">100dp</dimen>
+    <dimen name="chat_list_padding">8dp</dimen>
+    <dimen name="chat_list_dividerHeight">3dp</dimen>
+    <dimen name="question_list_dividerHeight">8dp</dimen>
+    <dimen name="dialog_speed_marginBottom">8dp</dimen>
+    <dimen name="network_dialog_textSize">14sp</dimen>
+    <dimen name="fullScreen_expression_marginLeft">10dp</dimen>
+    <dimen name="fullScreen_expression_marginRight">10dp</dimen>
+    <dimen name="fullScreen_send_marginRight">10dp</dimen>
+    <dimen name="guide_btn_marginBottom">20dp</dimen>
+    <dimen name="guide_cb_marginBottom">120dp</dimen>
+    <dimen name="guide_tip_margin">5dp</dimen>
 </resources>

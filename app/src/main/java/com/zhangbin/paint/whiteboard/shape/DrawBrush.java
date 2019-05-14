@@ -10,7 +10,8 @@ import com.zhangbin.paint.util.OperationUtils;
 /**
  * 笔刷
  */
-public class DrawBrush extends BaseShape {
+public class DrawBrush
+        extends BaseShape {
     private Path path = new Path();
 
     public DrawBrush() {
@@ -27,10 +28,10 @@ public class DrawBrush extends BaseShape {
         if ((this.dataList != null) && (this.dataList.size() > 0)) {
             this.path.reset();
             OrderBean.DataBean start = this.dataList.get(0);
-            this.path.moveTo(start.x * this.scaleRatio, start.y * this.scaleRatio);
+            this.path.moveTo(start.getX() * this.scaleRatio, start.getY() * this.scaleRatio);
             for (int i = 0; i <= this.dataList.size() - 1; i++) {
                 OrderBean.DataBean end = this.dataList.get(i);
-                this.path.lineTo(end.x * this.scaleRatio, end.y * this.scaleRatio);
+                this.path.lineTo(end.getX() * this.scaleRatio, end.getY() * this.scaleRatio);
             }
         }
         canvas.drawPath(this.path, this.paint);

@@ -1,3 +1,111 @@
-<resources>
-    <string name="app_name" translatable="false">绘制图像</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">绘制图像</string>
+
+    <string name="shutUp_input_tip">目前是锁屏模式,暂时不能发言哦...</string>
+    <string name="input_your_text">输入你的文字...</string>
+    <string name="app_debug_name">云直播ForDebug</string>
+    <string name="app_release_name">欢拓云课堂</string>
+    <string name="version_tip">©欢拓云直播 V</string>
+    <string name="action_settings">Settings</string>
+    <string name="live_log_label">登  录</string>
+    <string name="playback_log_label">进  入</string>
+    <string name="playback_download">下载页</string>
+    <string name="tips">提示</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="exit">是否确认退出？</string>
+    <string name="goon_download">正在使用2G/3G/4G移动网络,继续下载？</string>
+    <string name="key">房间密码</string>
+    <string name="playId">房间ID</string>
+    <string name="nickname">用户名</string>
+    <string name="notice_default">公告 ： </string>
+    <string name="question">提问</string>
+    <string name="chat">聊天</string>
+    <string name="notice">公告</string>
+    <string name="album">专辑</string>
+    <string name="private_chat">私聊</string>
+    <string name="input_edt_hint">请输入文字&#8230;</string>
+    <string name="assistants">助教</string>
+    <string name="teacher">老师</string>
+    <!--<string name="placeholder">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>-->
+    <string name="blank">&#160;</string>
+    <string name="member_forceout">您的帐号在其他地方登陆,您已下线.</string>
+    <string name="member_kick">你已经被管理员请出该房间了</string>
+    <string name="live_in">直播</string>
+    <string name="play_back">点播</string>
+
+    <string name="live_mode_h5">直播H5模式</string>
+    <string name="live_mode_native">房间模式</string>
+    <string name="playback_mode_h5">点播H5模式</string>
+    <string name="playback_mode_native">课程模式</string>
+    <string name="change_to_live">切换到直播</string>
+    <string name="change_to_playback">切换到点播</string>
+    <string name="remember_id">记住此ID</string>
+    <!--TODO: waring -->
+    <string name="login_failed_check_the_key">登录失败，请检查ID或密码是否输入正确。</string>
+    <string name="loading_please_wait">正在登录，请稍候&#8230;</string>
+    <string name="offline_login_failed">网络错误，登录失败。</string>
+    <string name="password_cannot_empty">密码不能为空。</string>
+    <string name="roomId_cannot_empty">ID不能为空。</string>
+    <string name="account_cannot_empty">用户名不能为空。</string>
+    <string name="illegal_input">包含非法字符,请重新输入.</string>
+    <string name="press_again_exit">再按一次后退键退出程序</string>
+    <string name="weak_network_login_failed">网络错误，登录失败。</string>
+    <string name="login_failed_check_play_id">登录失败，请检查点播ID是否输入正确。</string>
+    <string name="not_connect">网络不可用，请检查网络是否连接！</string>
+    <string name="not_buffer">本地还没有缓存该视频，请联网下载！</string>
+    <string name="refresh">刷新</string>
+    <string name="goback">返回</string>
+    <string name="update_tip">软件版本有更新，是否下载？</string>
+    <string name="new_apk_name">UpdateDemoRelease.apk</string>
+    <string name="init_new_ver_name">1.0</string>
+    <string name="update_dialog_title">软件版本更新</string>
+    <string name="download">下载</string>
+    <string name="download_tip">下载列表</string>
+    <string name="editor">编辑</string>
+    <string name="delete">删除</string>
+    <string name="select_all">全选</string>
+    <string name="cancel_select_all">取消全选</string>
+    <string name="ask_again">以后再说</string>
+    <string name="zero_percent">0%</string>
+    <string name="one_hundred_percent">100%</string>
+    <string name="live_wait_title">直播未开始</string>
+    <string name="live_stop_title">直播已结束</string>
+    <string name="init_zhubo">老师</string>
+    <string name="NET_MODERATE">网络一般</string>
+    <string name="NET_POOR">网络较差</string>
+    <string name="ToDownload_tip">正在下载</string>
+    <string name="Downloading_tip">已在下载队列</string>
+    <string name="Not_enough_memory">内存不足</string>
+
+    <string name="public_broadcast">公共广播:</string>
+    <string name="ht_notify" formatted="false" tools:ignore="StringFormatInvalid">通知:%s发起了抽奖,恭喜%s中奖!</string>
+    <string name="ht_vote_notify" formatted="false" tools:ignore="StringFormatInvalid">%s在%s结束了一个投票</string>
+    <string name="ht_check_vote_result">查看结果</string>
+    <string name="apply_for_has_underline"><a href="">申请试用</a></string>
+    <string name="apply_for">申请试用</string>
+    <string name="got_it">好的,知道了</string>
+
+    <string name="play_title">自考概率论第二章节</string>
+
+    <!--TODO:TEST TOKEN -->
+    <string name="token">QzM4YTOxYmZjF2M4U2N3ImM0Y2YihTO2QTZ0EzM4YTN8xHf911W6Iic0RXYiwSO4IDO0gDO0QTM6ISZtlGdnVmciwiIzATO5gjMiojIklGeiwCMyojIklGciwiIiojIyFGdhZXYiwCM6IiclRmbldmIskDO0ETO4gDN0EjOiUmcpBHelJCL4kDMwEjOiQWat92byJCLi4WatJiOiUWbh52ajlmbiwiIyV2c1JiOiUGbvJnIsIiN0gjN0AjMiojIklWdiwCMyojIkl2XyVmb0JXYwJye</string>
+
+    <string name="runs_vote">发起了投票</string>
+    <string name="ht_vote">投票</string>
+    <string name="multiple_choice">(多选)</string>
+    <string name="single_choice">(单选)</string>
+    <string name="ht_achieve_limit">选项达到上限</string>
+    <string name="ht_vote_success_tip">秒后自动关闭页面</string>
+    <string name="ht_vote_success">投票成功</string>
+    <!--TODO:第三方需要加上的-->
+    <string name="ht_change_network">选择网络</string>
+    <string name="ht_change_network_tips">95%情况下自动选择最佳线路的流畅度最好</string>
+    <string name="ht_switch_line">切换线路</string>
+    <string name="ht_switch_line_tip">观看异常可手动切换视频线路</string>
+
+    <string name="ht_page" formatted="false" tools:ignore="StringFormatInvalid">第%s页</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
