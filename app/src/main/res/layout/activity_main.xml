@@ -83,7 +83,7 @@
             android:id="@+id/ijk_videoView"
             android:layout_width="160dp"
             android:layout_height="120dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/shape_red"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="166dp"
             android:clickable="false"
@@ -94,8 +94,8 @@
             android:layout_width="160dp"
             android:layout_height="120dp"
             android:layout_gravity="right|bottom"
-            android:background="@drawable/bg"
             android:layout_marginBottom="166dp"
+            android:background="@drawable/bg"
             android:visibility="visible"/>
     </com.zhangbin.paint.video.view.DragFrameLayout>
     <TextView
@@ -159,14 +159,6 @@
             android:layout_weight="1"
             android:text="全屏" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_gravity="top"
-        android:text="显示"
-        android:visibility="visible"/>
     <Button
         android:id="@+id/btn_play"
         android:layout_width="wrap_content"

@@ -6,53 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="直播ID:"/>
-    <EditText
-        android:id="@+id/et_liveId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="100120190330EO9Fr0V6"
-        android:hint="请输入直播ID"
-        />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="用户ID:"/>
     <EditText
         android:id="@+id/et_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入用户ID"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="用户名称:"/>
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入用户名称"/>
-    </LinearLayout>
     <Button
         android:id="@+id/btn_vip_look_video"
         android:layout_width="match_parent"

@@ -60,7 +60,7 @@ public class DrawLine
         this.x2 = orderBean.getX2();
         this.y2 = orderBean.getY2();
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
+        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
     }
 }

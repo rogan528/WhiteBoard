@@ -59,7 +59,7 @@ public final class DrawRectangle
         this.top = orderBean.getY1();
         this.right = orderBean.getX2();
         this.bottom = orderBean.getY2();
-        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
+        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
 

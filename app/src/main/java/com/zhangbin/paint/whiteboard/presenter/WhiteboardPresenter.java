@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.zhangbin.paint.R;
 import com.zhangbin.paint.beans.OrderBean;
@@ -29,18 +27,17 @@ public class WhiteboardPresenter {
     private PageCommandCallback f;
     private ViewGroup viewGroup;
     private int indexPage;
+    private int backPage = 1;
     private float backpenSize = 2;
     private int backPenColor = Color.RED;
     private float backEraserSize = 5;
     private float backTextSize = 50;
     private int backTextColor = Color.RED;
+    private int addDraftPage = 100000;
 
     public WhiteboardPresenter(Context context, ViewGroup viewGroup) {
         this.viewGroup = viewGroup;
         this.context = context;
-        /*float scale = context.getResources().getDisplayMetrics().density;
-        float ratio = (scale / 160) * 72;
-        OperationUtils.getInstance().mCurrentTextSizeRatio = ratio;*/
         this.init();
 
     }
@@ -161,14 +158,13 @@ public class WhiteboardPresenter {
     /**
      * 410 打开草稿纸
      */
-    public void openDraftPaper(int addDraftPage) {
-        OperationUtils.getInstance().mBackPage = this.indexPage;
+    public void openDraftPaper() {
+        backPage = this.indexPage;
         backpenSize = OperationUtils.getInstance().mCurrentPenSize;
         backPenColor = OperationUtils.getInstance().mCurrentPenColor;
         backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
         backTextSize = OperationUtils.getInstance().mCurrentTextSize;
         backTextColor = OperationUtils.getInstance().mCurrentTextColor;
-        setWhiteboardBackgroundColor(Color.WHITE);
         this.whiteDrawView.openDraftPaper(addDraftPage);
         this.indexPage = addDraftPage;
     }
@@ -182,31 +178,18 @@ public class WhiteboardPresenter {
         OperationUtils.getInstance().mCurrentEraserSize = backEraserSize;
         OperationUtils.getInstance().mCurrentTextSize = backTextSize;
         OperationUtils.getInstance().mCurrentTextColor = backTextColor;
-        this.whiteDrawView.closeDraftPaper(OperationUtils.getInstance().mBackPage);
-        this.indexPage = OperationUtils.getInstance().mBackPage;
+        this.whiteDrawView.closeDraftPaper(backPage);
+        this.indexPage = backPage;
 
     }
-    /**
-     * 412 草稿纸换页
-     */
-    public void changeDraftPaper(int changeDraftPage) {
-        backpenSize = OperationUtils.getInstance().mCurrentPenSize;
-        backPenColor = OperationUtils.getInstance().mCurrentPenColor;
-        backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
-        backTextSize = OperationUtils.getInstance().mCurrentTextSize;
-        backTextColor = OperationUtils.getInstance().mCurrentTextColor;
-        setWhiteboardBackgroundColor(OperationUtils.getInstance().mWhiteboardBackgroundColor);
-        this.whiteDrawView.changeDraftPaper(changeDraftPage);
-    }
+
     /**
      * 413 草稿纸背景切换
      */
     public void setBackgroundColor(String value) {
         if (value.equals("1")) {  //白色
-            OperationUtils.getInstance().mWhiteboardBackgroundColor = Color.WHITE;
             setWhiteboardBackgroundColor(context.getResources().getColor(R.color.white));
         } else {//黑色
-            OperationUtils.getInstance().mWhiteboardBackgroundColor = Color.BLACK;
             setWhiteboardBackgroundColor(context.getResources().getColor(R.color.black));
         }
     }
@@ -214,15 +197,16 @@ public class WhiteboardPresenter {
     /**
      * 414 增加草稿纸
      */
-    public void addDraftPaper(int addDraftPage) {
+    public void addDraftPaper() {
+        backPage = this.indexPage;
         backpenSize = OperationUtils.getInstance().mCurrentPenSize;
         backPenColor = OperationUtils.getInstance().mCurrentPenColor;
         backEraserSize = OperationUtils.getInstance().mCurrentEraserSize;
         backTextSize = OperationUtils.getInstance().mCurrentTextSize;
         backTextColor = OperationUtils.getInstance().mCurrentTextColor;
-        setWhiteboardBackgroundColor(OperationUtils.getInstance().mWhiteboardBackgroundColor);
-        OperationUtils.getInstance().mEndDraftPage = addDraftPage+1;
-        this.indexPage = OperationUtils.getInstance().mEndDraftPage;
+        setWhiteboardBackgroundColor(context.getResources().getColor(R.color.white));
+        addDraftPage = addDraftPage+1;
+        this.indexPage = addDraftPage;
         this.whiteDrawView.addDraftPaper(this.indexPage);
     }
 

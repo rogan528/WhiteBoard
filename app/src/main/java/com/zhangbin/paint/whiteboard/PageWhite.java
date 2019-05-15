@@ -164,7 +164,6 @@ public final class PageWhite {
                         BaseDraw b;
                         b = (BaseDraw) localBaseDraw.clone();
                         b.moveTo(drawMove.getX(), drawMove.getY());
-                        b.setWidth(drawMove.getWidth());
                         return b;
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();

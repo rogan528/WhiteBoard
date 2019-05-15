@@ -34,7 +34,6 @@ public final class DrawMove
         if (orderBean.getUuid() == null || orderBean.getUuid().equals("")) {
             orderBean.setUuid(System.currentTimeMillis() + "");
         }
-        this.width=orderBean.getW();
         this.x = orderBean.getX();
         this.y = orderBean.getY();
         this.setId(orderBean.getUuid());

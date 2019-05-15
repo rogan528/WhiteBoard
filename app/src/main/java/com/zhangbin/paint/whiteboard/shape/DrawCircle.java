@@ -60,7 +60,7 @@ public final class DrawCircle
         this.right = orderBean.getX2();
         this.bottom = orderBean.getY2();
         this.strokeWidth = OperationUtils.getInstance().mCurrentPenSize;
-        this.paint.setColor(OperationUtils.getInstance().mCurrentShapeColor);
+        this.paint.setColor(OperationUtils.getInstance().mCurrentPenColor);
         this.paint.setStrokeWidth(OperationUtils.getInstance().mCurrentPenSize);
     }
 }

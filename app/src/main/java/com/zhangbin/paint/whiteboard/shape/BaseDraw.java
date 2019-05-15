@@ -21,7 +21,6 @@ public abstract class BaseDraw implements Cloneable {
 
     float offsetX;
     float offsetY;
-    float width;
 
     public BaseDraw() {
         this.paint = new Paint();
@@ -47,14 +46,6 @@ public abstract class BaseDraw implements Cloneable {
 
     public Paint getPaint() {
         return this.paint;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getWidth() {
-        return this.width;
     }
 
     public void setPaint(Paint paint) {

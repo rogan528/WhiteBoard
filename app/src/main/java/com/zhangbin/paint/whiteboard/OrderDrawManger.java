@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.zhangbin.paint.beans.OrderBean;
-import com.zhangbin.paint.util.OperationUtils;
 import com.zhangbin.paint.util.Util;
 import com.zhangbin.paint.whiteboard.presenter.WhiteboardPresenter;
 
@@ -119,15 +118,13 @@ public class OrderDrawManger {
                     break;
                 case 410:
                     //打开草稿纸
-                    whiteboardPresenter.openDraftPaper(OperationUtils.getInstance().mEndDraftPage);
+                    whiteboardPresenter.openDraftPaper();
                     break;
                 case 411:
                     //关闭草稿纸
                     whiteboardPresenter.closeDraftPaper();
                     break;
                 case 412:
-                    //翻页草稿纸
-                    whiteboardPresenter.changeDraftPaper(Integer.parseInt(this.orderBean.getValue())+OperationUtils.getInstance().mStartDraftPage);
                     break;
                 case 413:
                     //设置背景色
@@ -135,7 +132,7 @@ public class OrderDrawManger {
                     break;
                 case 414:
                     //新建草稿纸
-                    whiteboardPresenter.addDraftPaper(OperationUtils.getInstance().mEndDraftPage);
+                    whiteboardPresenter.addDraftPaper();
                     break;
                 case 500:
                     //清空
