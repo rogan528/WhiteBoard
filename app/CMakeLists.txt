@@ -18,16 +18,6 @@ add_library( # Sets the name of the library.
 
              # Provides a relative path to your source file(s).
              src/main/cpp/native-lib.cpp )
-add_library(
-        libAndroid
-        STATIC
-        IMPORTED
-)
-set_target_properties(
-        libAndroid
-        PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libAndroid_IM_SDK.so
-)
 #[[add_library(
         libSF
         STATIC
@@ -57,7 +47,6 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
          native-lib
-                       libAndroid
         #  libSF
                        # Links the target library to the log library
                        # included in the NDK.

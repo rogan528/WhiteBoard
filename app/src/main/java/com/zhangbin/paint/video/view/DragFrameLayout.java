@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.zhangbin.paint.R;
 
-import tv.danmaku.ijk.media.example.widget.media.IjkDragVideoView;
 
 public class DragFrameLayout extends FrameLayout {
 

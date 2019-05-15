@@ -8,71 +8,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp">
     </FrameLayout>
-    <LinearLayout
-        android:id="@+id/ll_trywatch"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_above="@+id/operation_btn_container"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/shape_gray_30"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:visibility="visible"
-        android:paddingRight="10dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_zz_try_see_head" />
-        <TextView
-            android:id="@+id/tv_trywatch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="可试看90s  开通周周会员免费看"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_InputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="280dp"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入内容"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_send_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="发送"/>
-        <Button
-            android:id="@+id/btn_forbid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="禁言"
-            android:layout_weight="1"
-            android:visibility="visible"/>
-        </LinearLayout>
-    </LinearLayout>
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_height="280dp"/>
     <com.zhangbin.paint.video.view.DragFrameLayout
         android:id="@+id/dragframeLayout"
         android:layout_width="match_parent"
@@ -146,24 +81,10 @@
             android:layout_weight="1"
             android:text="清空" />
         <Button
-            android:id="@+id/is_visiable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="visible"
-            android:text="不可见" />
-        <Button
             android:id="@+id/is_fullscreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="全屏" />
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="暂停"
-        android:visibility="gone"/>
 </FrameLayout>

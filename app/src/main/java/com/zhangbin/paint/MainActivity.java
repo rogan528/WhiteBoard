@@ -30,13 +30,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.lijian.sf_im_sdk.IM_SDK;
-import com.example.lijian.sf_im_sdk.MsgContent;
-import com.example.lijian.sf_im_sdk.OnGetInterface;
-import com.example.lijian.sf_im_sdk.OnUpdateUiInterface;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.zhangbin.paint.adapter.MsgItemAdapter;
 import com.zhangbin.paint.beans.OrderBean;
 import com.zhangbin.paint.util.ActivityUtil;
 import com.zhangbin.paint.util.DimensionUtils;
@@ -60,7 +55,7 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, OnUpdateUiInterface {
+public class MainActivity extends Activity implements View.OnClickListener{
     private FrameLayout pptLayout;
     private DragFrameLayout dragFrameLayout;
     private WhiteboardPresenter whiteboardPresenter;
@@ -68,8 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
     private int screenHeight;
     private int realHeight;//控件真实高度，去除头部标题后的
     private IjkDragVideoView mDragIjkVideoView;
-    private String ijkVideoUrl = "rtmp://192.168.1.207/live/100120190330EO9Fr0V6";
-    //private String ijkVideoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    private String ijkVideoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     private AndroidMediaController mMediaController;
     private Context mContext;
     private ArrayList<OrderBean> listOrderBean;
@@ -84,36 +78,13 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
     public static String USER_ID = "userId";
     public static String USER_NAME = "userName";
     private String userId,userName;
-    private LinearLayout tryWatch;
-    //是否可见按钮
-    private Button isVisiable;
     private ScheduledExecutorService lance;
     private LinearLayout titlebarContainer;
-    private IM_SDK im_sdk;
-    private ListView lvMsg;
-    private TextView loginStateView;
-    List<MsgContent> list = new ArrayList<>();
-    MsgItemAdapter itemAdapter;
-    private Button forbidPerson;
     private Toast mToast;
     private long preClickTime = 0L;
-    private long endClickTime = 0L;
-    private int initType =1,ipPort=8084;
-    private String serverIP = "192.168.1.206";
-    private String groupID = "2";
-    private LinearLayout inputLayout;
-    //连接互联服务状态码
-    private int state = -6;
-    //发消息错误回调码
-    private  int resCode = -8;
     private InputMethodManager imm;
     private ImageView mImageVideoView;
-    //输入框
-    private EditText mEdit;
-    private int sendType = 0,forbidType = 0;
-    private String forbidUserId,forbidUserName,forbidTime;
     int mDefaultRes;
-    private Button mPlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -128,9 +99,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
         userName = getIntent().getStringExtra(USER_NAME);
         mToast = Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT);
         float scale = getResources().getDisplayMetrics().density;
-        float fontScale = getResources().getDisplayMetrics().scaledDensity;
-        float v = (scale / 160) * 72;
-        initIM();
         initView();
         initData();
         playiJKVideo();
@@ -139,59 +107,20 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
         showTitleBar();
     }
     /**
-     * 连接IM服务初始化操作
-     */
-    private void initIM() {
-        im_sdk = new IM_SDK();
-        im_sdk.InitSDK(initType, userId, userName, groupID, "",
-                serverIP, "", ipPort
-        );
-        im_sdk.ConnectMsgServer();
-        im_sdk.setCalReCallBackListenner(new OnGetInterface() {
-            @Override
-            public void AddItem(MsgContent item) {
-                UpdateUIInterface(item);
-            }
-            public void GetLoginStaete(int state){
-                UpdateLoginInterface(state);
-            }
-            @Override
-            public void GetSendMsgData(int resCode, String userID) {
-                UpdateSendMsgDataStateInterface(resCode,userID);
-            }
-            @Override
-            public void GetDisableSend(int sendType, int resCode, int forbidType, String userId, String username, String time) {
-                UpdateDisableSendStateInterface(sendType, resCode ,forbidType, userId, username,time);
-            }
-        });
-    }
-    /**
      * 初始化控件
      */
     private void initView() {
         pptLayout =  findViewById(R.id.pptLayout);
         dragFrameLayout =  findViewById(R.id.dragframeLayout);
-        isVisiable = findViewById(R.id.is_visiable);
-        tryWatch = findViewById(R.id.ll_trywatch);
         titlebarContainer = findViewById(R.id.title_bar);
-        loginStateView = findViewById(R.id.sample_text);
-        lvMsg = findViewById(R.id.listview);
-        inputLayout = findViewById(R.id.ll_InputLayout);
-        forbidPerson = findViewById(R.id.btn_forbid);
         mImageVideoView = findViewById(R.id.iv_videoView);
-        mEdit = findViewById(R.id.et);
-        mPlay = findViewById(R.id.btn_play);
         findViewById(R.id.jx_next).setOnClickListener(this);
         findViewById(R.id.undo).setOnClickListener(this);
         findViewById(R.id.redo).setOnClickListener(this);
         findViewById(R.id.clear).setOnClickListener(this);
-        findViewById(R.id.is_visiable).setOnClickListener(this);
         findViewById(R.id.iv_go_back).setOnClickListener(this);
         findViewById(R.id.is_fullscreen).setOnClickListener(this);
         findViewById(R.id.pptLayout).setOnClickListener(this);
-        findViewById(R.id.btn_send_msg).setOnClickListener(this);
-        findViewById(R.id.btn_forbid).setOnClickListener(this);
-        mPlay.setOnClickListener(this);
     }
     /**
      * 播放IJK视频
@@ -221,7 +150,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
                     lp.height =  Math.round(mDragIjkVideoView.getWidth()/ratio);
                     mDragIjkVideoView.setLayoutParams(lp);
                     mDragIjkVideoView.setVisibility(View.VISIBLE);
-                    isVisiable.setVisibility(View.VISIBLE);
                     mDragIjkVideoView.start();
                     mHandler.sendEmptyMessageDelayed(DRAG_SHOW,1500);
 
@@ -248,13 +176,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
         realHeight = screenHeight;
         orderDrawManger = new OrderDrawManger(whiteboardPresenter);
         updateLayout();
-        if (!isVip){
-            tryWatch.setVisibility(View.VISIBLE);
-        }else {
-            tryWatch.setVisibility(View.GONE);
-        }
-        itemAdapter = new MsgItemAdapter(MainActivity.this ,R.layout.item , list);
-        lvMsg.setAdapter(itemAdapter);
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         try {
             Glide.with(MainActivity.this)
@@ -327,7 +248,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
             case R.id.iv_go_back:
                 gobackAction();
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    showInputLayout();
+
                 }
                 break;
             case R.id.jx_next:
@@ -341,16 +262,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
                 break;
             case R.id.clear:
                 whiteboardPresenter.orderClear();
-                break;
-            case R.id.is_visiable:
-
-                if (dragFrameLayout.getVisibility() == View.VISIBLE){
-                    dragFrameLayout.setVisibility(View.GONE);
-                    isVisiable.setText("可见");
-                }else {
-                    dragFrameLayout.setVisibility(View.VISIBLE);
-                    isVisiable.setText("不可见");
-                }
                 break;
             case R.id.is_fullscreen: //全屏
                 switchFullScreen();
@@ -370,77 +281,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
                     showTitleBar();
                 }
                 break;
-            case R.id.btn_send_msg:
-                if (state ==0 || state ==2) {
-                    sendMsg();
-                }else {
-                    mToast.setText("连接互动服务失败");
-                    mToast.show();
-                }
-                break;
-            case R.id.btn_forbid:
-                if (state ==0 || state ==2) {
-                    forbidPerson();
-                }else {
-                    mToast.setText("连接互动服务失败");
-                    mToast.show();
-                }
-                break;
-            case R.id.btn_play:
-                playAndPause();
-                break;
         }
-    }
-    /**
-     * 播放或者暂停
-     */
-    private void playAndPause() {
-        if (mPlay.getText().toString().trim().equals("暂停")) {
-            mDragIjkVideoView.pause();
-            mPlay.setText("播放");
-        }else if(mPlay.getText().toString().trim().equals("播放")){
-            mDragIjkVideoView.start();
-            mPlay.setText("暂停");
-        }
-    }
-    /**
-     * 禁言和解除
-     */
-    private void forbidPerson() {
-        preClickTime = System.currentTimeMillis();
-        if (forbidPerson.getText().toString().trim().equals("解除禁言")){//设置禁言
-            im_sdk.ForbidSendMsg(2, 4, "02", "02", "600");
-            mToast.setText("用户02被解除禁言");
-            mToast.show();
-            forbidPerson.setText("禁言");
-        }else if(forbidPerson.getText().toString().trim().equals("禁言")){  //解除禁言操作
-            im_sdk.ForbidSendMsg(1, 4, "02", "02", "600");
-            mToast.setText("用户02被禁言!");
-            mToast.show();
-            forbidPerson.setText("解除禁言");
-        }
-        endClickTime = System.currentTimeMillis();
     }
 
-    /**
-     * 发送消息
-     */
-    private void sendMsg() {
-        String msgData = mEdit.getText().toString();
-        if(!msgData.isEmpty()) {
-            im_sdk.SendMsg(msgData,msgData.length());
-            imm.hideSoftInputFromWindow(mEdit.getWindowToken(), 0);
-            int serverTime = im_sdk.GetServerTime();
-            String timeStr =Long.toString(serverTime);
-            MsgContent item = new MsgContent(userName ,timeStr,msgData);
-            list.add(item);
-            itemAdapter.notifyDataSetChanged();
-            mEdit.setText("");
-        }else {
-            mToast.setText("发送消息不允许为空!");
-            mToast.show();
-        }
-    }
+
 
     /**
      * 显示标题栏和操作按钮
@@ -508,7 +352,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
      */
     public void switchFullScreen() {
         onFullScreenChange();
-        showInputLayout();
 
     }
     /**
@@ -572,37 +415,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
                 IjkMediaPlayer.native_profileEnd();
                 handler.removeCallbacksAndMessages(null);
                 mDragIjkVideoView.stopBackgroundPlay();
-                im_sdk.DisConnServer();
             }
         }).start();
     }
 
-    /**
-     * 输入框的控制
-     */
-    private void showInputLayout() {
-        if (handler == null) {
-            return;
-        }
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!DimensionUtils.isPad(MainActivity.this) && ScreenSwitchUtils.getInstance(MainActivity.this).isFullScreen()) {
-                    //输入框的隐藏
-                    if (inputLayout != null && lvMsg != null) {
-                        inputLayout.setVisibility(View.GONE);
-                        lvMsg.setVisibility(View.GONE);
-                    }
-                } else {
-                    //输入框的显示
-                    if (inputLayout != null && lvMsg != null) {
-                        inputLayout.setVisibility(View.VISIBLE);
-                        lvMsg.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        }, 100);
-    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         boolean isPortrait = ScreenSwitchUtils.getInstance(this).isPortrait();
@@ -635,8 +451,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
             if (isPortrait) {   //竖屏
                 pptLayoutWidth = width;
                 height = 3 * width / 4;
-                lvMsg.setVisibility(View.VISIBLE);
-                inputLayout.setVisibility(View.VISIBLE);
             } else {  //横屏
                 if (DimensionUtils.isPad(this)) {
                     pptLayoutWidth = (int) (width * 0.72);
@@ -645,8 +459,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
                 } else {
                     pptLayoutWidth = width;
                 }
-                lvMsg.setVisibility(View.GONE);
-                inputLayout.setVisibility(View.GONE);
             }
             pptParams.width = pptLayoutWidth;
             pptParams.height = height;
@@ -659,139 +471,8 @@ public class MainActivity extends Activity implements View.OnClickListener, OnUp
         gobackAction();
     }
 
-    /**
-     * IM服务的处理
-     */
-    private Handler mHandlerUI = new Handler(){
-        public void handleMessage(Message msg) {
-            Bundle dataBundle = msg.getData();
-            MsgContent m_Item = new MsgContent();
-            if (dataBundle == null)
-                return;
-            int Type = dataBundle.getInt("type");
-
-            switch (Type){
-                case 0:
-                    state = dataBundle.getInt("state");
-                    switch (state){
-                        case -1: {
-                            mEdit.setEnabled(false);
-                            mEdit.setText("连接互动服务失败");
-                            loginStateView.setText("连接互动服务失败");
-                            break;
-                        }
-                        case 0:{
-                            mEdit.setEnabled(true);
-                            loginStateView.setText("已连上互动服务");
-                            break;
-                        }
-                        case 1:{
-                            loginStateView.setText("检测到断开互动服务，正在重连");
-                            break;
-                        }
-                        case 2:{
-                            mEdit.setEnabled(true);
-                            loginStateView.setText("已重连到互动服务");
-                            break;
-                        }
-                        case 3:{
-                            loginStateView.setText("网络异常，重连到互动服务失败");
-                            break;
-                        }
-                    }
-                    break;
-                case 1:
-                    resCode = dataBundle.getInt("resCode");
-                    if(resCode == 1){
-                        mToast.setText("你发送信息太快了,请慢些");
-                        mToast.show();
-                    }else if(resCode == 2){
-                        mToast.setText("发送消息失败,请重发");
-                        mToast.show();
-                     }
-                    break;
-                case 3:
-                    //发消息回调
-                    if (resCode != 1 && resCode != 2) {
-                        m_Item.setName(dataBundle.getString("name"));
-                        m_Item.setMsgtime(dataBundle.getString("msgTime"));
-                        m_Item.setMsgData(dataBundle.getString("msgData"));
-                        list.add(m_Item);
-                        itemAdapter.notifyDataSetChanged();
-                    }
-                    break;
-            }
-        }
-    };
-
-    /**
-     * 更新数据
-     * @param msgContent
-     */
-    @Override
-    public void UpdateUIInterface(MsgContent msgContent) {
-        Message msg = new Message();
-        Bundle dataBundle = new Bundle();
-        dataBundle.putInt("type",3);
-        dataBundle.putString("name",msgContent.getName());
-        dataBundle.putString("msgTime",msgContent.getMsgtime());
-        dataBundle.putString("msgData",msgContent.getMsgData());
-        msg.setData(dataBundle);
-        mHandlerUI.sendMessage(msg);
-        return;
-    }
-
-    /**
-     * 更新登陆状态
-     * @param state
-     */
-    @Override
-    public void UpdateLoginInterface(int state) {
-        Message msg = new Message();
-        Bundle dataBundle = new Bundle();
-        dataBundle.putInt("type",0);
-        dataBundle.putInt("state",state);
-        msg.setData(dataBundle);
-        mHandlerUI.sendMessage(msg);
-        return;
-    }
-
-    /**
-     * 更新发送消息的状态
-     * @param resCode
-     * @param userID
-     */
-    @Override
-    public void UpdateSendMsgDataStateInterface(int resCode, String userID) {
-        Message msg = new Message();
-        Bundle dataBundle = new Bundle();
-        dataBundle.putInt("type",1);
-        dataBundle.putInt("resCode",resCode);
-        dataBundle.putString("userID",userID);
-        msg.setData(dataBundle);
-        mHandlerUI.sendMessage(msg);
-        return;
-    }
-
-    /**
-     * 禁言回调接口
-     * @param sendType
-     * @param resCode
-     * @param forbidType
-     * @param userId
-     * @param username
-     * @param time
-     */
-    @Override
-    public void UpdateDisableSendStateInterface(int sendType, int resCode, int forbidType, String userId, String username, String time) {
-        forbidUserId = userId;
-        forbidUserName = userName;
-        this.forbidType = forbidType;
-    }
-
     @Override
     protected void onStop() {
-        im_sdk.DisConnServer();
         IjkMediaPlayer.native_profileEnd();
         handler.removeCallbacksAndMessages(null);
         mDragIjkVideoView.stopBackgroundPlay();

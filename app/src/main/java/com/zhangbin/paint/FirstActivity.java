@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 public class FirstActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
