@@ -203,7 +203,6 @@ public class GraffitiView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 touch_move(x, y);
-                Log.e("zhangbin----","x:"+x+"y:"+y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
