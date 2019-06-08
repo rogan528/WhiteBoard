@@ -12,8 +12,7 @@ import java.io.InputStreamReader;
 /**
  * @ClassName Util
  * @Description TODO
- * @Author yangjie
- * @Date 2019/3/20 下午1:31
+ * @Author zhangbin
  */
 public class Util {
     public static Integer toInteger(Object object) {
