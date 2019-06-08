@@ -119,7 +119,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="#000000"
+                android:text="#DC143C"
                 android:hint="画笔颜色"
                 />
             <EditText
