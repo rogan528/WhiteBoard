@@ -1,7 +1,6 @@
 package com.zhangbin.paint;
 
 /**
- * Created by zpxiang on 2016/4/6.
  * 类描述：View实现涂鸦、橡皮擦、撤销以及重做功能
  * 进行保存以及图片选择
  * 小功能包括画笔颜色、尺寸调整
