@@ -10,19 +10,13 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.zhangbin.paint.beans.OrderBean;
-
-import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
     private String url = "https://www.baidu.com/";
-
-
     private WebView mWebView;
     private LinearLayout mBottom;
     private EditText mPaintSize;//设置画笔大小
