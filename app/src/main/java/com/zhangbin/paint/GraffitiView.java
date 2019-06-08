@@ -195,7 +195,6 @@ public class GraffitiView extends View {
                 //记录最初始的点，画圆矩形箭头会用到
                 startX = event.getX();
                 startY = event.getY();
-                Log.e("zhangbin----","startx:"+startX+"y:"+startY);
                 // 每次down下去重新new一个Path
                 mPath = new Path();
                 //每一次记录的路径对象是不一样的

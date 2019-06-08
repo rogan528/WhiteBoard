@@ -17,24 +17,10 @@
         android:clickable="false"
         android:longClickable="false"
         android:layout_gravity="left"
-        android:text="基础作业! \n 三年级!"
+        android:text="我是可以拖拽的文字"
         android:gravity="center"
         android:layout_marginLeft="180dp"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/jx_next"
-        android:text="解析"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/open"
-        android:text="关闭"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/ll_bottom"

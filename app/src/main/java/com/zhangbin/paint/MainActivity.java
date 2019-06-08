@@ -2,40 +2,29 @@ package com.zhangbin.paint;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Display;
 import android.view.View;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.zhangbin.paint.beans.OrderBean;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements View.OnClickListener, MediaPlayer.OnPreparedListener {
+public class MainActivity extends Activity implements View.OnClickListener{
 
     private String url = "https://www.baidu.com/";
 
 
     private WebView mWebView;
-    private Button mOpen;//打开
     private LinearLayout mBottom;
-    private Button mJxNext;//下一步
     private EditText mPaintSize;//设置画笔大小
     private EditText mEraserSize;//设置橡皮大小
     private EditText mPaintColor;//设置颜色
@@ -53,12 +42,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private static final int DRAW_ARROW = 3;//画箭头
     private Toast mToast;
     private DragTextView mTextView;
-    private String videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     private float paintSizeValue = 5;//画笔的默认大小
     private float eRaserSizeValue = 50;//橡皮的默认大小
     private String mPaintColorValue = "#DC143C";//画笔的默认颜色
-    private ArrayList<OrderBean> listOrderBean;
-    private DrawManger drawManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +67,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         mPaintSize = findViewById(R.id.et_paint_size);//设置画笔大小
         mEraserSize = findViewById(R.id.et_eraser_size);//设置橡皮大小
         mPaintColor = findViewById(R.id.et_paint_color);//设置颜色
-        mOpen = findViewById(R.id.open);
         mBottom = findViewById(R.id.ll_bottom);
         mTextView = findViewById(R.id.textView);
-        mJxNext = findViewById(R.id.jx_next);
     }
 
     /**
@@ -121,19 +105,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView = new GraffitiView(this, screenWidth, realHeight);
         mWebView.addView(tuyaView);
         tuyaView.requestFocus();
-        /*tuyaView.setPaintSize(paintSizeValue);
-        tuyaView.setReaserSize("1",eRaserSizeValue);
-        tuyaView.setPaintColor("1",Color.parseColor(mPaintColorValue));*/
-        mOpen.setOnClickListener(this);
         initSetting();
-        String input = Util.readFileFromAssets(this, "LiveClient.json");
-        Gson gson = new Gson();
-        listOrderBean = gson.fromJson(input, new TypeToken<ArrayList<OrderBean>>() {
-        }.getType());
-        drawManger = new DrawManger(tuyaView, mWebView);
-        drawManger.setListorderBean(listOrderBean);
-
-
     }
 
     private void initSetting() {
@@ -201,7 +173,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
     private void initWebSetting() {
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        //mWebView.setWebViewClient(new WebChromeClient());
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebContentsDebuggingEnabled(true);
         mWebView.loadUrl(url);
@@ -228,28 +199,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         findViewById(R.id.btn_drawrec).setOnClickListener(this);
         //箭头
         findViewById(R.id.btn_drawarrow).setOnClickListener(this);
-        mJxNext.setOnClickListener(this);
-    }
-
-    /**
-     * 轮询播放
-     *
-     * @param mp
-     */
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mp.setLooping(true);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.jx_next:
-                drawManger.NextOrder().ExecuteOrder();
-                break;
-            case R.id.open:
-                aboutOpenSetting();
-                break;
             //画笔
             case R.id.btn_paint:
                 aboutPaintStyleSetting();
@@ -303,20 +257,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         }
     }
 
-
-    //打开
-    private void aboutOpenSetting() {
-        if (isOpen) {//
-            isOpen = false;
-            mOpen.setText("打开");
-            mBottom.setVisibility(View.GONE);
-        } else {
-            isOpen = true;
-            mOpen.setText("关闭");
-            mBottom.setVisibility(View.VISIBLE);
-        }
-    }
-
     //画笔样式设置
     private void aboutPaintStyleSetting() {
         paintStyleSettingDesc(select_paint_style_paint, true);
@@ -340,8 +280,4 @@ public class MainActivity extends Activity implements View.OnClickListener, Medi
         tuyaView.selectPaintStyle(paintStyle);
         isPaint = styleTarget;
     }
-
-
-
-
 }
